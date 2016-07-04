@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<title> WebAuthTng2 Tango Class Command check_permissions </title>
+</head>
+<body text="Black" bgcolor="White" link="Blue" vlink="Purple" alink="Red">
+<br><br><br>
+<font size="+1"><u><b> Command check_permissions : </b></u></font>
+<ul>
+	Checks opened session for given IP and PID, determines username and checks its access permissions.
+</ul>
+<br><br><br>
+<Table Border=2 Cellpadding=3 CELLSPACING=0>
+	<tr bgcolor="#CCCCFF" class="TableHeadingColor">
+	<td colspan=0> <font size=+1> <center><b> check_permissions Definition </b></font></center></td>
+	</tr>
+	<tr>
+		<td> Input Argument </td>
+		<td> Tango::DEVVAR_STRINGARRAY </td>
+		<td> Strings;<Br>
+argin[0]:device;<Br>
+argin[1]:cmd;<Br>
+argin[2]:IP;<Br>
+argin[3]:login; </td>
+	</tr>
+	<tr>
+		<td> Output Argument </td>
+		<td> Tango::DEV_BOOLEAN </td>
+		<td> true if user can execute command or write attribute, false otherwise </td>
+	</tr>
+	<tr>
+		<td> DisplayLevel </td>
+		<td> OPERATOR </td>
+		<td> .. </td>
+	</tr>
+	<tr>
+		<td> Inherited </td>
+		<td> false </td>
+		<td> .. </td>
+	</tr>
+	<tr>
+		<td> Abstract </td>
+		<td> false </td>
+		<td> .. </td>
+	</tr>
+	<tr>
+		<td> Polling Period </td>
+		<td> Not polled </td>
+		<td> .. </td>
+	</tr>
+<Tr BGCOLOR="#CCCCFF"><Td><Hr></Td><Td><Hr></Td><Td><Hr></Td></Tr>
+	<tr>
+		<td> Command allowed for </td>
+		<td> All states </td>
+		<td> .. </td>
+	</tr>
+</table>
+</body>
+</html>
