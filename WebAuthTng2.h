@@ -74,18 +74,19 @@ class WebAuthTng2 : public TANGO_BASE_CLASS
 //    Add your own data members
 private:
     MYSQL *connection;
+    //	dbhost:	Db host
+    string	dbhost;
+    //	dbname:	Db name containing authorization information.
+    string	dbname;
+    //	dbuser:	Db User  to read authentication database.
+    string	dbuser;
+    //	dbpass:	Db password to read authentication database.
+    string	dbpass;
+    //	MailAgentDevice:	Tango device with mail-agent for sending email.
 /*----- PROTECTED REGION END -----*/	//	WebAuthTng2::Data Members
 
 //	Device property data members
 public:
-	//	dbhost:	Db host
-	string	dbhost;
-	//	dbname:	Db name containing authorization information.
-	string	dbname;
-	//	dbuser:	Db User  to read authentication database.
-	string	dbuser;
-	//	dbpass:	Db password to read authentication database.
-	string	dbpass;
 	//	MailAgentDevice:	Tango device with mail-agent for sending email.
 	string	mailAgentDevice;
 

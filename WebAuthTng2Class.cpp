@@ -301,62 +301,6 @@ void WebAuthTng2Class::set_default_property()
 	//	Set Default Class Properties
 
 	//	Set Default device Properties
-	prop_name = "dbhost";
-	prop_desc = "Db host";
-	prop_def  = "localhost";
-	vect_data.clear();
-	vect_data.push_back("localhost");
-	if (prop_def.length()>0)
-	{
-		Tango::DbDatum	data(prop_name);
-		data << vect_data ;
-		dev_def_prop.push_back(data);
-		add_wiz_dev_prop(prop_name, prop_desc,  prop_def);
-	}
-	else
-		add_wiz_dev_prop(prop_name, prop_desc);
-	prop_name = "dbname";
-	prop_desc = "Db name containing authorization information.";
-	prop_def  = "tango_web_auth";
-	vect_data.clear();
-	vect_data.push_back("tango_web_auth");
-	if (prop_def.length()>0)
-	{
-		Tango::DbDatum	data(prop_name);
-		data << vect_data ;
-		dev_def_prop.push_back(data);
-		add_wiz_dev_prop(prop_name, prop_desc,  prop_def);
-	}
-	else
-		add_wiz_dev_prop(prop_name, prop_desc);
-	prop_name = "dbuser";
-	prop_desc = "Db User  to read authentication database.";
-	prop_def  = "tango";
-	vect_data.clear();
-	vect_data.push_back("tango");
-	if (prop_def.length()>0)
-	{
-		Tango::DbDatum	data(prop_name);
-		data << vect_data ;
-		dev_def_prop.push_back(data);
-		add_wiz_dev_prop(prop_name, prop_desc,  prop_def);
-	}
-	else
-		add_wiz_dev_prop(prop_name, prop_desc);
-	prop_name = "dbpass";
-	prop_desc = "Db password to read authentication database.";
-	prop_def  = "tangoauth";
-	vect_data.clear();
-	vect_data.push_back("tangoauth");
-	if (prop_def.length()>0)
-	{
-		Tango::DbDatum	data(prop_name);
-		data << vect_data ;
-		dev_def_prop.push_back(data);
-		add_wiz_dev_prop(prop_name, prop_desc,  prop_def);
-	}
-	else
-		add_wiz_dev_prop(prop_name, prop_desc);
 	prop_name = "MailAgentDevice";
 	prop_desc = "Tango device with mail-agent for sending email.";
 	prop_def  = "";

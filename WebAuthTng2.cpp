@@ -151,6 +151,10 @@ void WebAuthTng2::init_device()
 
     try
     {
+        dbhost = (string)DBHOST;
+        dbname = (string)DBNAME;
+        dbuser = (string)DBUSER;
+        dbpass = (string)DBPASS;
         MysqlConnect();
         MysqlPing();
         set_state(Tango::ON);
@@ -182,10 +186,6 @@ void WebAuthTng2::get_device_property()
 
 	//	Read device properties from database.
 	Tango::DbData	dev_prop;
-	dev_prop.push_back(Tango::DbDatum("dbhost"));
-	dev_prop.push_back(Tango::DbDatum("dbname"));
-	dev_prop.push_back(Tango::DbDatum("dbuser"));
-	dev_prop.push_back(Tango::DbDatum("dbpass"));
 	dev_prop.push_back(Tango::DbDatum("MailAgentDevice"));
 
 	//	is there at least one property to be read ?
@@ -200,50 +200,6 @@ void WebAuthTng2::get_device_property()
 		WebAuthTng2Class	*ds_class =
 			(static_cast<WebAuthTng2Class *>(get_device_class()));
 		int	i = -1;
-
-		//	Try to initialize dbhost from class property
-		cl_prop = ds_class->get_class_property(dev_prop[++i].name);
-		if (cl_prop.is_empty()==false)	cl_prop  >>  dbhost;
-		else {
-			//	Try to initialize dbhost from default device value
-			def_prop = ds_class->get_default_device_property(dev_prop[i].name);
-			if (def_prop.is_empty()==false)	def_prop  >>  dbhost;
-		}
-		//	And try to extract dbhost value from database
-		if (dev_prop[i].is_empty()==false)	dev_prop[i]  >>  dbhost;
-
-		//	Try to initialize dbname from class property
-		cl_prop = ds_class->get_class_property(dev_prop[++i].name);
-		if (cl_prop.is_empty()==false)	cl_prop  >>  dbname;
-		else {
-			//	Try to initialize dbname from default device value
-			def_prop = ds_class->get_default_device_property(dev_prop[i].name);
-			if (def_prop.is_empty()==false)	def_prop  >>  dbname;
-		}
-		//	And try to extract dbname value from database
-		if (dev_prop[i].is_empty()==false)	dev_prop[i]  >>  dbname;
-
-		//	Try to initialize dbuser from class property
-		cl_prop = ds_class->get_class_property(dev_prop[++i].name);
-		if (cl_prop.is_empty()==false)	cl_prop  >>  dbuser;
-		else {
-			//	Try to initialize dbuser from default device value
-			def_prop = ds_class->get_default_device_property(dev_prop[i].name);
-			if (def_prop.is_empty()==false)	def_prop  >>  dbuser;
-		}
-		//	And try to extract dbuser value from database
-		if (dev_prop[i].is_empty()==false)	dev_prop[i]  >>  dbuser;
-
-		//	Try to initialize dbpass from class property
-		cl_prop = ds_class->get_class_property(dev_prop[++i].name);
-		if (cl_prop.is_empty()==false)	cl_prop  >>  dbpass;
-		else {
-			//	Try to initialize dbpass from default device value
-			def_prop = ds_class->get_default_device_property(dev_prop[i].name);
-			if (def_prop.is_empty()==false)	def_prop  >>  dbpass;
-		}
-		//	And try to extract dbpass value from database
-		if (dev_prop[i].is_empty()==false)	dev_prop[i]  >>  dbpass;
 
 		//	Try to initialize MailAgentDevice from class property
 		cl_prop = ds_class->get_class_property(dev_prop[++i].name);
