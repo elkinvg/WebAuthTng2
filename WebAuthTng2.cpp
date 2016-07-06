@@ -151,10 +151,27 @@ void WebAuthTng2::init_device()
 
     try
     {
-        dbhost = (string)DBHOST;
-        dbname = (string)DBNAME;
-        dbuser = (string)DBUSER;
-        dbpass = (string)DBPASS;
+        stringstream ss;
+        ss << DBHOST;
+        dbhost = ss.str();
+        ss.str(std::string());ss.clear();
+        //dbhost = (string)DBHOST;
+
+        ss << DBNAME;
+        dbname = ss.str();
+        ss.str(std::string());ss.clear();
+        //dbname = (string)DBNAME;
+
+        ss << DBUSER;
+        dbuser = ss.str();
+        ss.str(std::string());ss.clear();
+        //dbuser = (string)DBUSER;
+
+        ss << DBPASS;
+        dbpass = ss.str();
+        ss.str(std::string());ss.clear();
+        //dbpass = (string)DBPASS;
+
         MysqlConnect();
         MysqlPing();
         set_state(Tango::ON);
