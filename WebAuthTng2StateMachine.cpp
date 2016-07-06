@@ -37,7 +37,7 @@ static const char *RcsId = "$Id:  $";
 
 #include <WebAuthTng2.h>
 
-/*----- PROTECTED REGION END -----*/	//	WebAuthTng2::WebAuthTng2StateMachine.cpp
+/*----- PROTECTED REGION END -----*/    //    WebAuthTng2::WebAuthTng2StateMachine.cpp
 
 //================================================================
 //  States  |  Description
@@ -50,79 +50,79 @@ static const char *RcsId = "$Id:  $";
 namespace WebAuthTng2_ns
 {
 //=================================================
-//		Attributes Allowed Methods
+//        Attributes Allowed Methods
 //=================================================
 
 
 //=================================================
-//		Commands Allowed Methods
+//        Commands Allowed Methods
 //=================================================
 
 //--------------------------------------------------------
 /**
- *	Method      : WebAuthTng2::is_On_allowed()
- *	Description : Execution allowed for On attribute
+ *    Method      : WebAuthTng2::is_On_allowed()
+ *    Description : Execution allowed for On attribute
  */
 //--------------------------------------------------------
 bool WebAuthTng2::is_On_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
-	//	Not any excluded states for On command.
-	/*----- PROTECTED REGION ID(WebAuthTng2::OnStateAllowed) ENABLED START -----*/
+    //    Not any excluded states for On command.
+    /*----- PROTECTED REGION ID(WebAuthTng2::OnStateAllowed) ENABLED START -----*/
     
-	/*----- PROTECTED REGION END -----*/	//	WebAuthTng2::OnStateAllowed
-	return true;
+    /*----- PROTECTED REGION END -----*/    //    WebAuthTng2::OnStateAllowed
+    return true;
 }
 
 //--------------------------------------------------------
 /**
- *	Method      : WebAuthTng2::is_Off_allowed()
- *	Description : Execution allowed for Off attribute
+ *    Method      : WebAuthTng2::is_Off_allowed()
+ *    Description : Execution allowed for Off attribute
  */
 //--------------------------------------------------------
 bool WebAuthTng2::is_Off_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
-	//	Not any excluded states for Off command.
-	/*----- PROTECTED REGION ID(WebAuthTng2::OffStateAllowed) ENABLED START -----*/
+    //    Not any excluded states for Off command.
+    /*----- PROTECTED REGION ID(WebAuthTng2::OffStateAllowed) ENABLED START -----*/
     
-	/*----- PROTECTED REGION END -----*/	//	WebAuthTng2::OffStateAllowed
-	return true;
+    /*----- PROTECTED REGION END -----*/    //    WebAuthTng2::OffStateAllowed
+    return true;
 }
 
 //--------------------------------------------------------
 /**
- *	Method      : WebAuthTng2::is_check_permissions_allowed()
- *	Description : Execution allowed for check_permissions attribute
+ *    Method      : WebAuthTng2::is_check_permissions_allowed()
+ *    Description : Execution allowed for check_permissions attribute
  */
 //--------------------------------------------------------
 bool WebAuthTng2::is_check_permissions_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
-	//	Not any excluded states for check_permissions command.
-	/*----- PROTECTED REGION ID(WebAuthTng2::check_permissionsStateAllowed) ENABLED START -----*/
+    //    Not any excluded states for check_permissions command.
+    /*----- PROTECTED REGION ID(WebAuthTng2::check_permissionsStateAllowed) ENABLED START -----*/
     
-	/*----- PROTECTED REGION END -----*/	//	WebAuthTng2::check_permissionsStateAllowed
-	return true;
+    /*----- PROTECTED REGION END -----*/    //    WebAuthTng2::check_permissionsStateAllowed
+    return true;
 }
 
 //--------------------------------------------------------
 /**
- *	Method      : WebAuthTng2::is_check_user_allowed()
- *	Description : Execution allowed for check_user attribute
+ *    Method      : WebAuthTng2::is_check_user_allowed()
+ *    Description : Execution allowed for check_user attribute
  */
 //--------------------------------------------------------
 bool WebAuthTng2::is_check_user_allowed(TANGO_UNUSED(const CORBA::Any &any))
 {
-	//	Not any excluded states for check_user command.
-	/*----- PROTECTED REGION ID(WebAuthTng2::check_userStateAllowed) ENABLED START -----*/
+    //    Not any excluded states for check_user command.
+    /*----- PROTECTED REGION ID(WebAuthTng2::check_userStateAllowed) ENABLED START -----*/
     
-	/*----- PROTECTED REGION END -----*/	//	WebAuthTng2::check_userStateAllowed
-	return true;
+    /*----- PROTECTED REGION END -----*/    //    WebAuthTng2::check_userStateAllowed
+    return true;
 }
 
 
 /*----- PROTECTED REGION ID(WebAuthTng2::WebAuthTng2StateAllowed.AdditionalMethods) ENABLED START -----*/
 
-//	Additional Methods
+//    Additional Methods
 
-/*----- PROTECTED REGION END -----*/	//	WebAuthTng2::WebAuthTng2StateAllowed.AdditionalMethods
+/*----- PROTECTED REGION END -----*/    //    WebAuthTng2::WebAuthTng2StateAllowed.AdditionalMethods
 
-}	//	End of namespace
+}    //    End of namespace

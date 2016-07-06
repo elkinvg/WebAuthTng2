@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <pogoDsl:PogoSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pogoDsl="http://www.esrf.fr/tango/pogo/PogoDsl">
   <classes name="WebAuthTng2" pogoRevision="9.1">
-    <description description="Device server to provide basic web authorization and check access permissions.&#xA;(MySQL database needed)." title="Tango web authentication device server" sourcePath="/home/elkin/tempwork/tangoservs/WebAuthTng2" language="Cpp" filestogenerate="XMI   file,Code files,Protected Regions" license="GPL" copyright="Copied and modified version of TangoWebAuth. author: egor@dubna.tk" hasMandatoryProperty="false" hasConcreteProperty="true" hasAbstractCommand="false" hasAbstractAttribute="false">
+    <description description="Device server to provide basic web authorization and check access permissions.&#xA;(MySQL database needed)." title="Tango web authentication device server" sourcePath="D:\progrdir\vs12_2013\fortango\WebAuthTng2" language="Cpp" filestogenerate="XMI   file,VC12 Project,Protected Regions" license="GPL" copyright="Copied and modified version of TangoWebAuth. author: egor@dubna.tk" hasMandatoryProperty="false" hasConcreteProperty="true" hasAbstractCommand="false" hasAbstractAttribute="false">
       <inheritances classname="Device_Impl" sourcePath=""/>
       <identification contact="at jinr.ru - elkin" author="elkin" emailDomain="jinr.ru" classFamily="System" siteSpecific="" platform="All Platforms" bus="Not Applicable" manufacturer="none" reference=""/>
     </description>
@@ -72,6 +72,6 @@
     <states name="FAULT" description="">
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
     </states>
-    <preferences docHome="./doc_html" makefileHome="/usr/local/share/pogo/preferences"/>
+    <preferences docHome="./doc_html" makefileHome="/home/taurel/tmp/tango_install/share/pogo/preferences"/>
   </classes>
 </pogoDsl:PogoSystem>

@@ -246,7 +246,7 @@ void WebAuthTng2::get_device_property()
 //--------------------------------------------------------
 void WebAuthTng2::always_executed_hook()
 {
-	DEBUG_STREAM << "WebAuthTng2::always_executed_hook()  " << device_name << endl;
+	//DEBUG_STREAM << "WebAuthTng2::always_executed_hook()  " << device_name << endl;
 	/*----- PROTECTED REGION ID(WebAuthTng2::always_executed_hook) ENABLED START -----*/
 
     //    code always executed before all requests

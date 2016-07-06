@@ -41,16 +41,16 @@ static const char *RcsId = "$Id:  $";
 #include <tango.h>
 #include <WebAuthTng2Class.h>
 
-//	Add class header files if needed
+//    Add class header files if needed
 
 
 /**
- *	Create WebAuthTng2 Class singleton and store it in DServer object.
+ *    Create WebAuthTng2 Class singleton and store it in DServer object.
  */
 
 void Tango::DServer::class_factory()
 {
-	//	Add method class init if needed
-	add_class(WebAuthTng2_ns::WebAuthTng2Class::init("WebAuthTng2"));
+    //    Add method class init if needed
+    add_class(WebAuthTng2_ns::WebAuthTng2Class::init("WebAuthTng2"));
 }
-/*----- PROTECTED REGION END -----*/	//	WebAuthTng2::ClassFactory.cpp
+/*----- PROTECTED REGION END -----*/    //    WebAuthTng2::ClassFactory.cpp
