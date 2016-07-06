@@ -43,7 +43,7 @@ static const char *RcsId = "$Id:  $";
 #include <WebAuthTng2.h>
 #include <WebAuthTng2Class.h>
 
-/*----- PROTECTED REGION END -----*/	//	WebAuthTng2.cpp
+/*----- PROTECTED REGION END -----*/    //    WebAuthTng2.cpp
 
 /**
  *  WebAuthTng2 class description:
@@ -76,78 +76,78 @@ namespace WebAuthTng2_ns
 
 //    static initializations
 
-/*----- PROTECTED REGION END -----*/	//	WebAuthTng2::namespace_starting
+/*----- PROTECTED REGION END -----*/    //    WebAuthTng2::namespace_starting
 
 //--------------------------------------------------------
 /**
- *	Method      : WebAuthTng2::WebAuthTng2()
- *	Description : Constructors for a Tango device
+ *    Method      : WebAuthTng2::WebAuthTng2()
+ *    Description : Constructors for a Tango device
  *                implementing the classWebAuthTng2
  */
 //--------------------------------------------------------
 WebAuthTng2::WebAuthTng2(Tango::DeviceClass *cl, string &s)
  : TANGO_BASE_CLASS(cl, s.c_str())
 {
-	/*----- PROTECTED REGION ID(WebAuthTng2::constructor_1) ENABLED START -----*/
+    /*----- PROTECTED REGION ID(WebAuthTng2::constructor_1) ENABLED START -----*/
     init_device();
 
-	/*----- PROTECTED REGION END -----*/	//	WebAuthTng2::constructor_1
+    /*----- PROTECTED REGION END -----*/    //    WebAuthTng2::constructor_1
 }
 //--------------------------------------------------------
 WebAuthTng2::WebAuthTng2(Tango::DeviceClass *cl, const char *s)
  : TANGO_BASE_CLASS(cl, s)
 {
-	/*----- PROTECTED REGION ID(WebAuthTng2::constructor_2) ENABLED START -----*/
+    /*----- PROTECTED REGION ID(WebAuthTng2::constructor_2) ENABLED START -----*/
     init_device();
 
-	/*----- PROTECTED REGION END -----*/	//	WebAuthTng2::constructor_2
+    /*----- PROTECTED REGION END -----*/    //    WebAuthTng2::constructor_2
 }
 //--------------------------------------------------------
 WebAuthTng2::WebAuthTng2(Tango::DeviceClass *cl, const char *s, const char *d)
  : TANGO_BASE_CLASS(cl, s, d)
 {
-	/*----- PROTECTED REGION ID(WebAuthTng2::constructor_3) ENABLED START -----*/
+    /*----- PROTECTED REGION ID(WebAuthTng2::constructor_3) ENABLED START -----*/
     init_device();
 
-	/*----- PROTECTED REGION END -----*/	//	WebAuthTng2::constructor_3
+    /*----- PROTECTED REGION END -----*/    //    WebAuthTng2::constructor_3
 }
 
 //--------------------------------------------------------
 /**
- *	Method      : WebAuthTng2::delete_device()
- *	Description : will be called at device destruction or at init command
+ *    Method      : WebAuthTng2::delete_device()
+ *    Description : will be called at device destruction or at init command
  */
 //--------------------------------------------------------
 void WebAuthTng2::delete_device()
 {
-	DEBUG_STREAM << "WebAuthTng2::delete_device() " << device_name << endl;
-	/*----- PROTECTED REGION ID(WebAuthTng2::delete_device) ENABLED START -----*/
+    DEBUG_STREAM << "WebAuthTng2::delete_device() " << device_name << endl;
+    /*----- PROTECTED REGION ID(WebAuthTng2::delete_device) ENABLED START -----*/
 
     //    Delete device allocated objects
 
-	/*----- PROTECTED REGION END -----*/	//	WebAuthTng2::delete_device
+    /*----- PROTECTED REGION END -----*/    //    WebAuthTng2::delete_device
 }
 
 //--------------------------------------------------------
 /**
- *	Method      : WebAuthTng2::init_device()
- *	Description : will be called at device initialization.
+ *    Method      : WebAuthTng2::init_device()
+ *    Description : will be called at device initialization.
  */
 //--------------------------------------------------------
 void WebAuthTng2::init_device()
 {
-	DEBUG_STREAM << "WebAuthTng2::init_device() create device " << device_name << endl;
-	/*----- PROTECTED REGION ID(WebAuthTng2::init_device_before) ENABLED START -----*/
+    DEBUG_STREAM << "WebAuthTng2::init_device() create device " << device_name << endl;
+    /*----- PROTECTED REGION ID(WebAuthTng2::init_device_before) ENABLED START -----*/
 
     //    Initialization before get_device_property() call
 
-	/*----- PROTECTED REGION END -----*/	//	WebAuthTng2::init_device_before
-	
+    /*----- PROTECTED REGION END -----*/    //    WebAuthTng2::init_device_before
+    
 
-	//	Get the device properties from database
-	get_device_property();
-	
-	/*----- PROTECTED REGION ID(WebAuthTng2::init_device) ENABLED START -----*/
+    //    Get the device properties from database
+    get_device_property();
+    
+    /*----- PROTECTED REGION ID(WebAuthTng2::init_device) ENABLED START -----*/
 
     try
     {
@@ -183,162 +183,162 @@ void WebAuthTng2::init_device()
         set_status(err.errorMessage);
     }
 
-	/*----- PROTECTED REGION END -----*/	//	WebAuthTng2::init_device
+    /*----- PROTECTED REGION END -----*/    //    WebAuthTng2::init_device
 }
 
 //--------------------------------------------------------
 /**
- *	Method      : WebAuthTng2::get_device_property()
- *	Description : Read database to initialize property data members.
+ *    Method      : WebAuthTng2::get_device_property()
+ *    Description : Read database to initialize property data members.
  */
 //--------------------------------------------------------
 void WebAuthTng2::get_device_property()
 {
-	/*----- PROTECTED REGION ID(WebAuthTng2::get_device_property_before) ENABLED START -----*/
+    /*----- PROTECTED REGION ID(WebAuthTng2::get_device_property_before) ENABLED START -----*/
 
     //    Initialize property data members
 
-	/*----- PROTECTED REGION END -----*/	//	WebAuthTng2::get_device_property_before
+    /*----- PROTECTED REGION END -----*/    //    WebAuthTng2::get_device_property_before
 
 
-	//	Read device properties from database.
-	Tango::DbData	dev_prop;
-	dev_prop.push_back(Tango::DbDatum("MailAgentDevice"));
+    //    Read device properties from database.
+    Tango::DbData    dev_prop;
+    dev_prop.push_back(Tango::DbDatum("MailAgentDevice"));
 
-	//	is there at least one property to be read ?
-	if (dev_prop.size()>0)
-	{
-		//	Call database and extract values
-		if (Tango::Util::instance()->_UseDb==true)
-			get_db_device()->get_property(dev_prop);
-	
-		//	get instance on WebAuthTng2Class to get class property
-		Tango::DbDatum	def_prop, cl_prop;
-		WebAuthTng2Class	*ds_class =
-			(static_cast<WebAuthTng2Class *>(get_device_class()));
-		int	i = -1;
+    //    is there at least one property to be read ?
+    if (dev_prop.size()>0)
+    {
+        //    Call database and extract values
+        if (Tango::Util::instance()->_UseDb==true)
+            get_db_device()->get_property(dev_prop);
+    
+        //    get instance on WebAuthTng2Class to get class property
+        Tango::DbDatum    def_prop, cl_prop;
+        WebAuthTng2Class    *ds_class =
+            (static_cast<WebAuthTng2Class *>(get_device_class()));
+        int    i = -1;
 
-		//	Try to initialize MailAgentDevice from class property
-		cl_prop = ds_class->get_class_property(dev_prop[++i].name);
-		if (cl_prop.is_empty()==false)	cl_prop  >>  mailAgentDevice;
-		else {
-			//	Try to initialize MailAgentDevice from default device value
-			def_prop = ds_class->get_default_device_property(dev_prop[i].name);
-			if (def_prop.is_empty()==false)	def_prop  >>  mailAgentDevice;
-		}
-		//	And try to extract MailAgentDevice value from database
-		if (dev_prop[i].is_empty()==false)	dev_prop[i]  >>  mailAgentDevice;
+        //    Try to initialize MailAgentDevice from class property
+        cl_prop = ds_class->get_class_property(dev_prop[++i].name);
+        if (cl_prop.is_empty()==false)    cl_prop  >>  mailAgentDevice;
+        else {
+            //    Try to initialize MailAgentDevice from default device value
+            def_prop = ds_class->get_default_device_property(dev_prop[i].name);
+            if (def_prop.is_empty()==false)    def_prop  >>  mailAgentDevice;
+        }
+        //    And try to extract MailAgentDevice value from database
+        if (dev_prop[i].is_empty()==false)    dev_prop[i]  >>  mailAgentDevice;
 
-	}
+    }
 
-	/*----- PROTECTED REGION ID(WebAuthTng2::get_device_property_after) ENABLED START -----*/
+    /*----- PROTECTED REGION ID(WebAuthTng2::get_device_property_after) ENABLED START -----*/
 
     //    Check device property data members init
 
-	/*----- PROTECTED REGION END -----*/	//	WebAuthTng2::get_device_property_after
+    /*----- PROTECTED REGION END -----*/    //    WebAuthTng2::get_device_property_after
 }
 
 //--------------------------------------------------------
 /**
- *	Method      : WebAuthTng2::always_executed_hook()
- *	Description : method always executed before any command is executed
+ *    Method      : WebAuthTng2::always_executed_hook()
+ *    Description : method always executed before any command is executed
  */
 //--------------------------------------------------------
 void WebAuthTng2::always_executed_hook()
 {
-	//DEBUG_STREAM << "WebAuthTng2::always_executed_hook()  " << device_name << endl;
-	/*----- PROTECTED REGION ID(WebAuthTng2::always_executed_hook) ENABLED START -----*/
+    //DEBUG_STREAM << "WebAuthTng2::always_executed_hook()  " << device_name << endl;
+    /*----- PROTECTED REGION ID(WebAuthTng2::always_executed_hook) ENABLED START -----*/
 
     //    code always executed before all requests
 
-	/*----- PROTECTED REGION END -----*/	//	WebAuthTng2::always_executed_hook
+    /*----- PROTECTED REGION END -----*/    //    WebAuthTng2::always_executed_hook
 }
 
 //--------------------------------------------------------
 /**
- *	Method      : WebAuthTng2::read_attr_hardware()
- *	Description : Hardware acquisition for attributes
+ *    Method      : WebAuthTng2::read_attr_hardware()
+ *    Description : Hardware acquisition for attributes
  */
 //--------------------------------------------------------
 void WebAuthTng2::read_attr_hardware(TANGO_UNUSED(vector<long> &attr_list))
 {
-	DEBUG_STREAM << "WebAuthTng2::read_attr_hardware(vector<long> &attr_list) entering... " << endl;
-	/*----- PROTECTED REGION ID(WebAuthTng2::read_attr_hardware) ENABLED START -----*/
+    DEBUG_STREAM << "WebAuthTng2::read_attr_hardware(vector<long> &attr_list) entering... " << endl;
+    /*----- PROTECTED REGION ID(WebAuthTng2::read_attr_hardware) ENABLED START -----*/
 
     //    Add your own code
 
-	/*----- PROTECTED REGION END -----*/	//	WebAuthTng2::read_attr_hardware
+    /*----- PROTECTED REGION END -----*/    //    WebAuthTng2::read_attr_hardware
 }
 
 
 //--------------------------------------------------------
 /**
- *	Method      : WebAuthTng2::add_dynamic_attributes()
- *	Description : Create the dynamic attributes if any
+ *    Method      : WebAuthTng2::add_dynamic_attributes()
+ *    Description : Create the dynamic attributes if any
  *                for specified device.
  */
 //--------------------------------------------------------
 void WebAuthTng2::add_dynamic_attributes()
 {
-	/*----- PROTECTED REGION ID(WebAuthTng2::add_dynamic_attributes) ENABLED START -----*/
+    /*----- PROTECTED REGION ID(WebAuthTng2::add_dynamic_attributes) ENABLED START -----*/
 
     //    Add your own code to create and add dynamic attributes if any
 
-	/*----- PROTECTED REGION END -----*/	//	WebAuthTng2::add_dynamic_attributes
+    /*----- PROTECTED REGION END -----*/    //    WebAuthTng2::add_dynamic_attributes
 }
 
 //--------------------------------------------------------
 /**
- *	Command On related method
- *	Description: 
+ *    Command On related method
+ *    Description: 
  *
  */
 //--------------------------------------------------------
 void WebAuthTng2::on()
 {
-	DEBUG_STREAM << "WebAuthTng2::On()  - " << device_name << endl;
-	/*----- PROTECTED REGION ID(WebAuthTng2::on) ENABLED START -----*/
+    DEBUG_STREAM << "WebAuthTng2::On()  - " << device_name << endl;
+    /*----- PROTECTED REGION ID(WebAuthTng2::on) ENABLED START -----*/
 
     set_state(Tango::ON);
     set_status("Device is ON");
 
-	/*----- PROTECTED REGION END -----*/	//	WebAuthTng2::on
+    /*----- PROTECTED REGION END -----*/    //    WebAuthTng2::on
 }
 //--------------------------------------------------------
 /**
- *	Command Off related method
- *	Description: 
+ *    Command Off related method
+ *    Description: 
  *
  */
 //--------------------------------------------------------
 void WebAuthTng2::off()
 {
-	DEBUG_STREAM << "WebAuthTng2::Off()  - " << device_name << endl;
-	/*----- PROTECTED REGION ID(WebAuthTng2::off) ENABLED START -----*/
+    DEBUG_STREAM << "WebAuthTng2::Off()  - " << device_name << endl;
+    /*----- PROTECTED REGION ID(WebAuthTng2::off) ENABLED START -----*/
 
     set_state(Tango::OFF);
     set_status("Device is OFF");
 
-	/*----- PROTECTED REGION END -----*/	//	WebAuthTng2::off
+    /*----- PROTECTED REGION END -----*/    //    WebAuthTng2::off
 }
 //--------------------------------------------------------
 /**
- *	Command check_permissions related method
- *	Description: Checks opened session for given IP and PID, determines username and checks its access permissions.
+ *    Command check_permissions related method
+ *    Description: Checks opened session for given IP and PID, determines username and checks its access permissions.
  *
- *	@param argin Strings;
+ *    @param argin Strings;
  *               argin[0]:device;
  *               argin[1]:cmd;
  *               argin[2]:IP;
  *               argin[3]:login;
- *	@returns true if user can execute command or write attribute, false otherwise
+ *    @returns true if user can execute command or write attribute, false otherwise
  */
 //--------------------------------------------------------
 Tango::DevBoolean WebAuthTng2::check_permissions(const Tango::DevVarStringArray *argin)
 {
-	Tango::DevBoolean argout;
-	DEBUG_STREAM << "WebAuthTng2::check_permissions()  - " << device_name << endl;
-	/*----- PROTECTED REGION ID(WebAuthTng2::check_permissions) ENABLED START -----*/
+    Tango::DevBoolean argout;
+    DEBUG_STREAM << "WebAuthTng2::check_permissions()  - " << device_name << endl;
+    /*----- PROTECTED REGION ID(WebAuthTng2::check_permissions) ENABLED START -----*/
 
     argout = false;
     if (argin->length() > 3)
@@ -380,25 +380,25 @@ Tango::DevBoolean WebAuthTng2::check_permissions(const Tango::DevVarStringArray 
         }
     }
 
-	/*----- PROTECTED REGION END -----*/	//	WebAuthTng2::check_permissions
-	return argout;
+    /*----- PROTECTED REGION END -----*/    //    WebAuthTng2::check_permissions
+    return argout;
 }
 //--------------------------------------------------------
 /**
- *	Command check_user related method
- *	Description: 
+ *    Command check_user related method
+ *    Description: 
  *
- *	@param argin Strings;
+ *    @param argin Strings;
  *               argin[0]:login;
  *               argin[1]:password;
- *	@returns true if user was authorised
+ *    @returns true if user was authorised
  */
 //--------------------------------------------------------
 Tango::DevBoolean WebAuthTng2::check_user(const Tango::DevVarStringArray *argin)
 {
-	Tango::DevBoolean argout;
-	DEBUG_STREAM << "WebAuthTng2::check_user()  - " << device_name << endl;
-	/*----- PROTECTED REGION ID(WebAuthTng2::check_user) ENABLED START -----*/
+    Tango::DevBoolean argout;
+    DEBUG_STREAM << "WebAuthTng2::check_user()  - " << device_name << endl;
+    /*----- PROTECTED REGION ID(WebAuthTng2::check_user) ENABLED START -----*/
     argout = false;
     if (argin->length() > 1)
     {
@@ -436,23 +436,23 @@ Tango::DevBoolean WebAuthTng2::check_user(const Tango::DevVarStringArray *argin)
         }
     }
 
-	/*----- PROTECTED REGION END -----*/	//	WebAuthTng2::check_user
-	return argout;
+    /*----- PROTECTED REGION END -----*/    //    WebAuthTng2::check_user
+    return argout;
 }
 //--------------------------------------------------------
 /**
- *	Method      : WebAuthTng2::add_dynamic_commands()
- *	Description : Create the dynamic commands if any
+ *    Method      : WebAuthTng2::add_dynamic_commands()
+ *    Description : Create the dynamic commands if any
  *                for specified device.
  */
 //--------------------------------------------------------
 void WebAuthTng2::add_dynamic_commands()
 {
-	/*----- PROTECTED REGION ID(WebAuthTng2::add_dynamic_commands) ENABLED START -----*/
-	
-	//	Add your own code to create and add dynamic commands if any
-	
-	/*----- PROTECTED REGION END -----*/	//	WebAuthTng2::add_dynamic_commands
+    /*----- PROTECTED REGION ID(WebAuthTng2::add_dynamic_commands) ENABLED START -----*/
+    
+    //    Add your own code to create and add dynamic commands if any
+    
+    /*----- PROTECTED REGION END -----*/    //    WebAuthTng2::add_dynamic_commands
 }
 
 /*----- PROTECTED REGION ID(WebAuthTng2::namespace_ending) ENABLED START -----*/
@@ -486,5 +486,5 @@ void WebAuthTng2::MysqlPing()
         throw MySQLError("MySQL Error");
 }
 
-/*----- PROTECTED REGION END -----*/	//	WebAuthTng2::namespace_ending
-} //	namespace
+/*----- PROTECTED REGION END -----*/    //    WebAuthTng2::namespace_ending
+} //    namespace
