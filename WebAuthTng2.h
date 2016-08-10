@@ -41,8 +41,15 @@
 #include <tango.h>
 #include <mysql.h>
 
+#ifdef DBUSER
+#ifdef DBPASS
 
-/*----- PROTECTED REGION END -----*/    //    WebAuthTng2.h
+#define USEDDB
+
+#endif
+#endif
+
+/*----- PROTECTED REGION END -----*/	//	WebAuthTng2.h
 
 /**
  *  WebAuthTng2 class description:
@@ -64,7 +71,7 @@ public: const char* errorMessage;
     }
 };
 
-/*----- PROTECTED REGION END -----*/    //    WebAuthTng2::Additional Class Declarations
+/*----- PROTECTED REGION END -----*/	//	WebAuthTng2::Additional Class Declarations
 
 class WebAuthTng2 : public TANGO_BASE_CLASS
 {
@@ -75,160 +82,167 @@ class WebAuthTng2 : public TANGO_BASE_CLASS
 private:
     MYSQL *connection;
     //    dbhost:    Db host
-    string    dbhost;
-    //    dbname:    Db name containing authorization information.
-    string    dbname;
-    //    dbuser:    Db User  to read authentication database.
+//    string    dbhost;
+//    //    dbname:    Db name containing authorization information.
+//    string    dbname;
+//    //    dbuser:    Db User  to read authentication database.
     string    dbuser;
     //    dbpass:    Db password to read authentication database.
     string    dbpass;
     //    MailAgentDevice:    Tango device with mail-agent for sending email.
-/*----- PROTECTED REGION END -----*/    //    WebAuthTng2::Data Members
+/*----- PROTECTED REGION END -----*/	//	WebAuthTng2::Data Members
 
-//    Device property data members
+//	Device property data members
 public:
-    //    MailAgentDevice:    Tango device with mail-agent for sending email.
-    string    mailAgentDevice;
+	//	MailAgentDevice:	Tango device with mail-agent for sending email.
+	string	mailAgentDevice;
+	//	dbhost:	Database host
+	string	dbhost;
+	//	dbname:	Db name containg the user information.
+	string	dbname;
 
 
-//    Constructors and destructors
+//	Constructors and destructors
 public:
-    /**
-     * Constructs a newly device object.
-     *
-     *    @param cl    Class.
-     *    @param s     Device Name
-     */
-    WebAuthTng2(Tango::DeviceClass *cl,string &s);
-    /**
-     * Constructs a newly device object.
-     *
-     *    @param cl    Class.
-     *    @param s     Device Name
-     */
-    WebAuthTng2(Tango::DeviceClass *cl,const char *s);
-    /**
-     * Constructs a newly device object.
-     *
-     *    @param cl    Class.
-     *    @param s     Device name
-     *    @param d    Device description.
-     */
-    WebAuthTng2(Tango::DeviceClass *cl,const char *s,const char *d);
-    /**
-     * The device object destructor.
-     */
-    ~WebAuthTng2() {delete_device();};
+	/**
+	 * Constructs a newly device object.
+	 *
+	 *	@param cl	Class.
+	 *	@param s 	Device Name
+	 */
+	WebAuthTng2(Tango::DeviceClass *cl,string &s);
+	/**
+	 * Constructs a newly device object.
+	 *
+	 *	@param cl	Class.
+	 *	@param s 	Device Name
+	 */
+	WebAuthTng2(Tango::DeviceClass *cl,const char *s);
+	/**
+	 * Constructs a newly device object.
+	 *
+	 *	@param cl	Class.
+	 *	@param s 	Device name
+	 *	@param d	Device description.
+	 */
+	WebAuthTng2(Tango::DeviceClass *cl,const char *s,const char *d);
+	/**
+	 * The device object destructor.
+	 */
+	~WebAuthTng2() {delete_device();};
 
 
-//    Miscellaneous methods
+//	Miscellaneous methods
 public:
-    /*
-     *    will be called at device destruction or at init command.
-     */
-    void delete_device();
-    /*
-     *    Initialize the device
-     */
-    virtual void init_device();
-    /*
-     *    Read the device properties from database
-     */
-    void get_device_property();
-    /*
-     *    Always executed method before execution command method.
-     */
-    virtual void always_executed_hook();
+	/*
+	 *	will be called at device destruction or at init command.
+	 */
+	void delete_device();
+	/*
+	 *	Initialize the device
+	 */
+	virtual void init_device();
+	/*
+	 *	Read the device properties from database
+	 */
+	void get_device_property();
+	/*
+	 *	Always executed method before execution command method.
+	 */
+	virtual void always_executed_hook();
 
 
-//    Attribute methods
+//	Attribute methods
 public:
-    //--------------------------------------------------------
-    /*
-     *    Method      : WebAuthTng2::read_attr_hardware()
-     *    Description : Hardware acquisition for attributes.
-     */
-    //--------------------------------------------------------
-    virtual void read_attr_hardware(vector<long> &attr_list);
+	//--------------------------------------------------------
+	/*
+	 *	Method      : WebAuthTng2::read_attr_hardware()
+	 *	Description : Hardware acquisition for attributes.
+	 */
+	//--------------------------------------------------------
+	virtual void read_attr_hardware(vector<long> &attr_list);
 
 
-    //--------------------------------------------------------
-    /**
-     *    Method      : WebAuthTng2::add_dynamic_attributes()
-     *    Description : Add dynamic attributes if any.
-     */
-    //--------------------------------------------------------
-    void add_dynamic_attributes();
+	//--------------------------------------------------------
+	/**
+	 *	Method      : WebAuthTng2::add_dynamic_attributes()
+	 *	Description : Add dynamic attributes if any.
+	 */
+	//--------------------------------------------------------
+	void add_dynamic_attributes();
 
 
 
 
-//    Command related methods
+//	Command related methods
 public:
-    /**
-     *    Command On related method
-     *    Description: 
-     *
-     */
-    virtual void on();
-    virtual bool is_On_allowed(const CORBA::Any &any);
-    /**
-     *    Command Off related method
-     *    Description: 
-     *
-     */
-    virtual void off();
-    virtual bool is_Off_allowed(const CORBA::Any &any);
-    /**
-     *    Command check_permissions related method
-     *    Description: Checks opened session for given IP and PID, determines username and checks its access permissions.
-     *
-     *    @param argin Strings;
-     *               argin[0]:device;
-     *               argin[1]:cmd;
-     *               argin[2]:IP;
-     *               argin[3]:login;
-     *    @returns true if user can execute command or write attribute, false otherwise
-     */
-    virtual Tango::DevBoolean check_permissions(const Tango::DevVarStringArray *argin);
-    virtual bool is_check_permissions_allowed(const CORBA::Any &any);
-    /**
-     *    Command check_user related method
-     *    Description: 
-     *
-     *    @param argin Strings;
-     *               argin[0]:login;
-     *               argin[1]:password;
-     *    @returns true if user was authorised
-     */
-    virtual Tango::DevBoolean check_user(const Tango::DevVarStringArray *argin);
-    virtual bool is_check_user_allowed(const CORBA::Any &any);
+	/**
+	 *	Command On related method
+	 *	Description: 
+	 *
+	 */
+	virtual void on();
+	virtual bool is_On_allowed(const CORBA::Any &any);
+	/**
+	 *	Command Off related method
+	 *	Description: 
+	 *
+	 */
+	virtual void off();
+	virtual bool is_Off_allowed(const CORBA::Any &any);
+	/**
+	 *	Command check_permissions related method
+	 *	Description: Checks opened session for given IP and PID, determines username and checks its access permissions.
+	 *
+	 *	@param argin Strings;
+	 *               argin[0]:device;
+	 *               argin[1]:cmd;
+	 *               argin[2]:IP;
+	 *               argin[3]:login;
+	 *	@returns true if user can execute command or write attribute, false otherwise
+	 */
+	virtual Tango::DevBoolean check_permissions(const Tango::DevVarStringArray *argin);
+	virtual bool is_check_permissions_allowed(const CORBA::Any &any);
+	/**
+	 *	Command check_user related method
+	 *	Description: 
+	 *
+	 *	@param argin Strings;
+	 *               argin[0]:login;
+	 *               argin[1]:password;
+	 *	@returns true if user was authorised
+	 */
+	virtual Tango::DevBoolean check_user(const Tango::DevVarStringArray *argin);
+	virtual bool is_check_user_allowed(const CORBA::Any &any);
 
 
-    //--------------------------------------------------------
-    /**
-     *    Method      : WebAuthTng2::add_dynamic_commands()
-     *    Description : Add dynamic commands if any.
-     */
-    //--------------------------------------------------------
-    void add_dynamic_commands();
+	//--------------------------------------------------------
+	/**
+	 *	Method      : WebAuthTng2::add_dynamic_commands()
+	 *	Description : Add dynamic commands if any.
+	 */
+	//--------------------------------------------------------
+	void add_dynamic_commands();
 
 /*----- PROTECTED REGION ID(WebAuthTng2::Additional Method prototypes) ENABLED START -----*/
 
 //    Additional Method prototypes
+#ifdef USEDDB
+    void initDbUserPass();
+#endif
     void CheckError();
     void MysqlConnect();
     void MysqlPing();
 
-/*----- PROTECTED REGION END -----*/    //    WebAuthTng2::Additional Method prototypes
+/*----- PROTECTED REGION END -----*/	//	WebAuthTng2::Additional Method prototypes
 };
 
 /*----- PROTECTED REGION ID(WebAuthTng2::Additional Classes Definitions) ENABLED START -----*/
 
 //    Additional Classes Definitions
 
-/*----- PROTECTED REGION END -----*/    //    WebAuthTng2::Additional Classes Definitions
+/*----- PROTECTED REGION END -----*/	//	WebAuthTng2::Additional Classes Definitions
 
-}    //    End of namespace
+}	//	End of namespace
 
-#endif   //    WebAuthTng2_H
+#endif   //	WebAuthTng2_H

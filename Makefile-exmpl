@@ -92,7 +92,7 @@ LIB_DIR_USER= -L/usr/lib64/mysql -lmysqlclient
 # -DACE_HAS_EXCEPTIONS -D__ACE_INLINE__ for ACE
 #
 #CXXFLAGS_USR+= -Wall
-CXXFLAGS_USR+= -DDBUSER="\"user_of_database\"" -DDBNAME="\"name_of_data_base\"" -DDBHOST="\"host\"" -DDBPASS="\"data_base_user\""
+CXXFLAGS_USR+= -DDBUSER="\"user_of_database\"" -DDBPASS="\"user_pass\""
 
 #=============================================================================
 # TANGO_REQUIRED 

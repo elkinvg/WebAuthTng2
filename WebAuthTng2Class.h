@@ -46,7 +46,7 @@
 #include <WebAuthTng2.h>
 
 
-/*----- PROTECTED REGION END -----*/    //    WebAuthTng2Class.h
+/*----- PROTECTED REGION END -----*/	//	WebAuthTng2Class.h
 
 
 namespace WebAuthTng2_ns
@@ -54,106 +54,106 @@ namespace WebAuthTng2_ns
 /*----- PROTECTED REGION ID(WebAuthTng2Class::classes for dynamic creation) ENABLED START -----*/
 
 
-/*----- PROTECTED REGION END -----*/    //    WebAuthTng2Class::classes for dynamic creation
+/*----- PROTECTED REGION END -----*/	//	WebAuthTng2Class::classes for dynamic creation
 
 //=========================================
-//    Define classes for commands
+//	Define classes for commands
 //=========================================
-//    Command On class definition
+//	Command On class definition
 class OnClass : public Tango::Command
 {
 public:
-    OnClass(const char   *name,
-                   Tango::CmdArgType in,
-                   Tango::CmdArgType out,
-                   const char        *in_desc,
-                   const char        *out_desc,
-                   Tango::DispLevel  level)
-    :Command(name,in,out,in_desc,out_desc, level)    {};
+	OnClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out,
+				   const char        *in_desc,
+				   const char        *out_desc,
+				   Tango::DispLevel  level)
+	:Command(name,in,out,in_desc,out_desc, level)	{};
 
-    OnClass(const char   *name,
-                   Tango::CmdArgType in,
-                   Tango::CmdArgType out)
-    :Command(name,in,out)    {};
-    ~OnClass() {};
-    
-    virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
-    virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
-    {return (static_cast<WebAuthTng2 *>(dev))->is_On_allowed(any);}
+	OnClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out)
+	:Command(name,in,out)	{};
+	~OnClass() {};
+	
+	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
+	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
+	{return (static_cast<WebAuthTng2 *>(dev))->is_On_allowed(any);}
 };
 
-//    Command Off class definition
+//	Command Off class definition
 class OffClass : public Tango::Command
 {
 public:
-    OffClass(const char   *name,
-                   Tango::CmdArgType in,
-                   Tango::CmdArgType out,
-                   const char        *in_desc,
-                   const char        *out_desc,
-                   Tango::DispLevel  level)
-    :Command(name,in,out,in_desc,out_desc, level)    {};
+	OffClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out,
+				   const char        *in_desc,
+				   const char        *out_desc,
+				   Tango::DispLevel  level)
+	:Command(name,in,out,in_desc,out_desc, level)	{};
 
-    OffClass(const char   *name,
-                   Tango::CmdArgType in,
-                   Tango::CmdArgType out)
-    :Command(name,in,out)    {};
-    ~OffClass() {};
-    
-    virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
-    virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
-    {return (static_cast<WebAuthTng2 *>(dev))->is_Off_allowed(any);}
+	OffClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out)
+	:Command(name,in,out)	{};
+	~OffClass() {};
+	
+	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
+	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
+	{return (static_cast<WebAuthTng2 *>(dev))->is_Off_allowed(any);}
 };
 
-//    Command check_permissions class definition
+//	Command check_permissions class definition
 class check_permissionsClass : public Tango::Command
 {
 public:
-    check_permissionsClass(const char   *name,
-                   Tango::CmdArgType in,
-                   Tango::CmdArgType out,
-                   const char        *in_desc,
-                   const char        *out_desc,
-                   Tango::DispLevel  level)
-    :Command(name,in,out,in_desc,out_desc, level)    {};
+	check_permissionsClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out,
+				   const char        *in_desc,
+				   const char        *out_desc,
+				   Tango::DispLevel  level)
+	:Command(name,in,out,in_desc,out_desc, level)	{};
 
-    check_permissionsClass(const char   *name,
-                   Tango::CmdArgType in,
-                   Tango::CmdArgType out)
-    :Command(name,in,out)    {};
-    ~check_permissionsClass() {};
-    
-    virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
-    virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
-    {return (static_cast<WebAuthTng2 *>(dev))->is_check_permissions_allowed(any);}
+	check_permissionsClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out)
+	:Command(name,in,out)	{};
+	~check_permissionsClass() {};
+	
+	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
+	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
+	{return (static_cast<WebAuthTng2 *>(dev))->is_check_permissions_allowed(any);}
 };
 
-//    Command check_user class definition
+//	Command check_user class definition
 class check_userClass : public Tango::Command
 {
 public:
-    check_userClass(const char   *name,
-                   Tango::CmdArgType in,
-                   Tango::CmdArgType out,
-                   const char        *in_desc,
-                   const char        *out_desc,
-                   Tango::DispLevel  level)
-    :Command(name,in,out,in_desc,out_desc, level)    {};
+	check_userClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out,
+				   const char        *in_desc,
+				   const char        *out_desc,
+				   Tango::DispLevel  level)
+	:Command(name,in,out,in_desc,out_desc, level)	{};
 
-    check_userClass(const char   *name,
-                   Tango::CmdArgType in,
-                   Tango::CmdArgType out)
-    :Command(name,in,out)    {};
-    ~check_userClass() {};
-    
-    virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
-    virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
-    {return (static_cast<WebAuthTng2 *>(dev))->is_check_user_allowed(any);}
+	check_userClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out)
+	:Command(name,in,out)	{};
+	~check_userClass() {};
+	
+	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
+	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
+	{return (static_cast<WebAuthTng2 *>(dev))->is_check_user_allowed(any);}
 };
 
 
 /**
- *    The WebAuthTng2Class singleton definition
+ *	The WebAuthTng2Class singleton definition
  */
 
 #ifdef _TG_WINDOWS_
@@ -162,45 +162,45 @@ class __declspec(dllexport)  WebAuthTng2Class : public Tango::DeviceClass
 class WebAuthTng2Class : public Tango::DeviceClass
 #endif
 {
-    /*----- PROTECTED REGION ID(WebAuthTng2Class::Additionnal DServer data members) ENABLED START -----*/
+	/*----- PROTECTED REGION ID(WebAuthTng2Class::Additionnal DServer data members) ENABLED START -----*/
     
     
-    /*----- PROTECTED REGION END -----*/    //    WebAuthTng2Class::Additionnal DServer data members
+    /*----- PROTECTED REGION END -----*/	//	WebAuthTng2Class::Additionnal DServer data members
 
-    public:
-        //    write class properties data members
-        Tango::DbData    cl_prop;
-        Tango::DbData    cl_def_prop;
-        Tango::DbData    dev_def_prop;
-    
-        //    Method prototypes
-        static WebAuthTng2Class *init(const char *);
-        static WebAuthTng2Class *instance();
-        ~WebAuthTng2Class();
-        Tango::DbDatum    get_class_property(string &);
-        Tango::DbDatum    get_default_device_property(string &);
-        Tango::DbDatum    get_default_class_property(string &);
-    
-    protected:
-        WebAuthTng2Class(string &);
-        static WebAuthTng2Class *_instance;
-        void command_factory();
-        void attribute_factory(vector<Tango::Attr *> &);
-        void pipe_factory();
-        void write_class_property();
-        void set_default_property();
-        void get_class_property();
-        string get_cvstag();
-        string get_cvsroot();
-    
-    private:
-        void device_factory(const Tango::DevVarStringArray *);
-        void create_static_attribute_list(vector<Tango::Attr *> &);
-        void erase_dynamic_attributes(const Tango::DevVarStringArray *,vector<Tango::Attr *> &);
-        vector<string>    defaultAttList;
-        Tango::Attr *get_attr_object_by_name(vector<Tango::Attr *> &att_list, string attname);
+	public:
+		//	write class properties data members
+		Tango::DbData	cl_prop;
+		Tango::DbData	cl_def_prop;
+		Tango::DbData	dev_def_prop;
+	
+		//	Method prototypes
+		static WebAuthTng2Class *init(const char *);
+		static WebAuthTng2Class *instance();
+		~WebAuthTng2Class();
+		Tango::DbDatum	get_class_property(string &);
+		Tango::DbDatum	get_default_device_property(string &);
+		Tango::DbDatum	get_default_class_property(string &);
+	
+	protected:
+		WebAuthTng2Class(string &);
+		static WebAuthTng2Class *_instance;
+		void command_factory();
+		void attribute_factory(vector<Tango::Attr *> &);
+		void pipe_factory();
+		void write_class_property();
+		void set_default_property();
+		void get_class_property();
+		string get_cvstag();
+		string get_cvsroot();
+	
+	private:
+		void device_factory(const Tango::DevVarStringArray *);
+		void create_static_attribute_list(vector<Tango::Attr *> &);
+		void erase_dynamic_attributes(const Tango::DevVarStringArray *,vector<Tango::Attr *> &);
+		vector<string>	defaultAttList;
+		Tango::Attr *get_attr_object_by_name(vector<Tango::Attr *> &att_list, string attname);
 };
 
-}    //    End of namespace
+}	//	End of namespace
 
-#endif   //    WebAuthTng2_H
+#endif   //	WebAuthTng2_H
