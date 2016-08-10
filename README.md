@@ -18,3 +18,9 @@ You have to use the definition of defines DBUSER and DBPASS in Makefile
 ```
 CXXFLAGS_USR+= -DDBUSER="\"user_of_database\"" -DDBPASS="\"user_pass\""
 ```
+
+In Visual Studio 
+
+```
+Configuration Properties // C/C++ // Preprocessor // Preprocessor Definitions // DBUSER="user_of_database";DBPASS="user_pass"
+```
