@@ -214,6 +214,22 @@ public:
 	 */
 	virtual Tango::DevBoolean check_user(const Tango::DevVarStringArray *argin);
 	virtual bool is_check_user_allowed(const CORBA::Any &any);
+	/**
+	 *	Command Send_log_command_ex related method
+	 *	Description: Send log to DB about command execute
+	 *
+	 *	@param argin Strings:
+	 *               [0] datetime in UNIX_TIMESTAMP formate
+	 *               [1] username
+	 *               [2] device_name
+	 *               [3] ip
+	 *               [4] command
+	 *               [5] command in json
+	 *               [6] access status
+	 *	@returns 
+	 */
+	virtual Tango::DevBoolean send_log_command_ex(const Tango::DevVarStringArray *argin);
+	virtual bool is_Send_log_command_ex_allowed(const CORBA::Any &any);
 
 
 	//--------------------------------------------------------

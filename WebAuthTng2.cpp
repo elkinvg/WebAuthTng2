@@ -55,14 +55,15 @@ static const char *RcsId = "$Id:  $";
 //  The following table gives the correspondence
 //  between command and method names.
 //
-//  Command name       |  Method name
+//  Command name         |  Method name
 //================================================================
-//  State              |  Inherited (no method)
-//  Status             |  Inherited (no method)
-//  On                 |  on
-//  Off                |  off
-//  check_permissions  |  check_permissions
-//  check_user         |  check_user
+//  State                |  Inherited (no method)
+//  Status               |  Inherited (no method)
+//  On                   |  on
+//  Off                  |  off
+//  check_permissions    |  check_permissions
+//  check_user           |  check_user
+//  Send_log_command_ex  |  send_log_command_ex
 //================================================================
 
 //================================================================
@@ -467,6 +468,91 @@ Tango::DevBoolean WebAuthTng2::check_user(const Tango::DevVarStringArray *argin)
 }
 //--------------------------------------------------------
 /**
+ *	Command Send_log_command_ex related method
+ *	Description: Send log to DB about command execute
+ *
+ *	@param argin Strings:
+ *               [0] datetime in UNIX_TIMESTAMP formate
+ *               [1] username
+ *               [2] device_name
+ *               [3] ip
+ *               [4] command
+ *               [5] command in json
+ *               [6] access status
+ *	@returns 
+ */
+//--------------------------------------------------------
+Tango::DevBoolean WebAuthTng2::send_log_command_ex(const Tango::DevVarStringArray *argin)
+{
+	Tango::DevBoolean argout;
+	DEBUG_STREAM << "WebAuthTng2::Send_log_command_ex()  - " << device_name << endl;
+	/*----- PROTECTED REGION ID(WebAuthTng2::send_log_command_ex) ENABLED START -----*/
+	
+    // argin[0] = timestamp_string UNIX_TIMESTAMP
+    // argin[1] = login
+    // argin[2] = deviceName
+    // argin[3] = IP
+    // argin[4] = commandName
+    // argin[5] = commandJson
+    // argin[6] = statusBool
+
+    unsigned long len = argin->length();
+    //cout << "LENGTH " << argin->length();
+
+    argout = false;
+    if (len == 7)
+    {
+        try {
+            std::stringstream query;
+            std::stringstream values;
+            for (int i = 0; i < len; i++)
+            {
+                if (i)
+                    values << ",";
+                if (i == 0) // FOR datetime
+                    values << " FROM_UNIXTIME(";
+                else
+                    values << "\"";
+
+                if (i!=5)
+                    values << CORBA::string_dup((*argin)[i]);
+                else {
+                    //replace " -> \" in command_json
+                    string tmp = CORBA::string_dup((*argin)[i]);
+                    auto pos = tmp.find("\"");
+                    while (pos != string::npos)
+                        {
+                            tmp.replace(pos, 1, "\\\"");
+                            pos = tmp.find("\"",pos + 2);
+                        }
+                    values << tmp;
+                }
+
+                if (i == 0)
+                    values << ")";
+                else
+                    values << "\"";
+            }
+
+            query << "INSERT INTO  command_history " << " VALUES(default," << values.str() << ")";
+//            cout << "QUERY: " << query.str() << endl;
+
+            mysql_query(connection, query.str().c_str());
+            CheckError();
+            argout =  true;
+        }
+        catch (MySQLError &err)
+        {
+            set_state(Tango::FAULT);
+            set_status(err.errorMessage);
+        }
+    }
+	
+	/*----- PROTECTED REGION END -----*/	//	WebAuthTng2::send_log_command_ex
+	return argout;
+}
+//--------------------------------------------------------
+/**
  *	Method      : WebAuthTng2::add_dynamic_commands()
  *	Description : Create the dynamic commands if any
  *                for specified device.
@@ -481,20 +567,6 @@ void WebAuthTng2::add_dynamic_commands()
     /*----- PROTECTED REGION END -----*/	//	WebAuthTng2::add_dynamic_commands
 }
 
-#ifdef USEDDB
-void WebAuthTng2::initDbUserPass()
-{
-    stringstream ss;
-    ss << DBUSER;
-    dbuser = ss.str();
-    ss.str(std::string());ss.clear();
-
-    ss << DBPASS;
-    dbpass = ss.str();
-    ss.str(std::string());ss.clear();
-}
-#endif
-
 /*----- PROTECTED REGION ID(WebAuthTng2::namespace_ending) ENABLED START -----*/
 
 void WebAuthTng2::CheckError()
@@ -506,6 +578,19 @@ void WebAuthTng2::CheckError()
     }
 }
 
+#ifdef USEDDB
+void WebAuthTng2::initDbUserPass()
+    {
+        stringstream ss;
+        ss << DBUSER;
+        dbuser = ss.str();
+        ss.str(std::string());ss.clear();
+
+        ss << DBPASS;
+        dbpass = ss.str();
+        ss.str(std::string());ss.clear();
+    }
+#endif
 
 void WebAuthTng2::MysqlConnect()
 {

@@ -118,6 +118,21 @@ bool WebAuthTng2::is_check_user_allowed(TANGO_UNUSED(const CORBA::Any &any))
 	return true;
 }
 
+//--------------------------------------------------------
+/**
+ *	Method      : WebAuthTng2::is_Send_log_command_ex_allowed()
+ *	Description : Execution allowed for Send_log_command_ex attribute
+ */
+//--------------------------------------------------------
+bool WebAuthTng2::is_Send_log_command_ex_allowed(TANGO_UNUSED(const CORBA::Any &any))
+{
+	//	Not any excluded states for Send_log_command_ex command.
+	/*----- PROTECTED REGION ID(WebAuthTng2::Send_log_command_exStateAllowed) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	WebAuthTng2::Send_log_command_exStateAllowed
+	return true;
+}
+
 
 /*----- PROTECTED REGION ID(WebAuthTng2::WebAuthTng2StateAllowed.AdditionalMethods) ENABLED START -----*/
 

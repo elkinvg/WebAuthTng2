@@ -151,6 +151,29 @@ public:
 	{return (static_cast<WebAuthTng2 *>(dev))->is_check_user_allowed(any);}
 };
 
+//	Command Send_log_command_ex class definition
+class Send_log_command_exClass : public Tango::Command
+{
+public:
+	Send_log_command_exClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out,
+				   const char        *in_desc,
+				   const char        *out_desc,
+				   Tango::DispLevel  level)
+	:Command(name,in,out,in_desc,out_desc, level)	{};
+
+	Send_log_command_exClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out)
+	:Command(name,in,out)	{};
+	~Send_log_command_exClass() {};
+	
+	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
+	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
+	{return (static_cast<WebAuthTng2 *>(dev))->is_Send_log_command_ex_allowed(any);}
+};
+
 
 /**
  *	The WebAuthTng2Class singleton definition

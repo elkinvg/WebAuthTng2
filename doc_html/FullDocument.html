@@ -66,6 +66,7 @@
 				<li> <a href="FullDocument.html#cmdOff"> Off </a>
 				<li> <a href="FullDocument.html#cmdcheck_permissions"> check_permissions </a>
 				<li> <a href="FullDocument.html#cmdcheck_user"> check_user </a>
+				<li> <a href="FullDocument.html#cmdSend_log_command_ex"> Send_log_command_ex </a>
 			</ul>
 			<li> <a href="FullDocument.html#attributes">   Attributes   </a>
 			<ul>
@@ -220,6 +221,13 @@
 		<td> DEV_BOOLEAN </td>
 		<td> OPERATOR </td>
 		<td> None. </td>
+	</tr>
+	<tr>
+		<td> <a href="CmdSend_log_command_ex.html"> Send_log_command_ex </a> </td>
+		<td> DEVVAR_STRINGARRAY </td>
+		<td> DEV_BOOLEAN </td>
+		<td> OPERATOR </td>
+		<td> Send log to DB about command execute </td>
 	</tr>
 </table>
 <br><br><hr>
@@ -491,6 +499,62 @@ argin[1]:password; </td>
 		<td> Output Argument </td>
 		<td> Tango::DEV_BOOLEAN </td>
 		<td> true if user was authorised </td>
+	</tr>
+	<tr>
+		<td> DisplayLevel </td>
+		<td> OPERATOR </td>
+		<td> .. </td>
+	</tr>
+	<tr>
+		<td> Inherited </td>
+		<td> false </td>
+		<td> .. </td>
+	</tr>
+	<tr>
+		<td> Abstract </td>
+		<td> false </td>
+		<td> .. </td>
+	</tr>
+	<tr>
+		<td> Polling Period </td>
+		<td> Not polled </td>
+		<td> .. </td>
+	</tr>
+<Tr BGCOLOR="#CCCCFF"><Td><Hr></Td><Td><Hr></Td><Td><Hr></Td></Tr>
+	<tr>
+		<td> Command allowed for </td>
+		<td> All states </td>
+		<td> .. </td>
+	</tr>
+</table>
+<br><br><hr>
+<a name="cmdSend_log_command_ex"> </a>
+<br><br><br>
+<font size="+1"><u><b> Command Send_log_command_ex : </b></u></font>
+<ul>
+	Send log to DB about command execute
+</ul>
+<br><br><br>
+<Table Border=2 Cellpadding=3 CELLSPACING=0>
+	<tr bgcolor="#CCCCFF" class="TableHeadingColor">
+	<td colspan=0> <font size=+1> <center><b> Send_log_command_ex Definition </b></font></center></td>
+	</tr>
+	<tr>
+		<td> Input Argument </td>
+		<td> Tango::DEVVAR_STRINGARRAY </td>
+		<td> Strings:<Br>
+[0] datetime in UNIX_TIMESTAMP formate<Br>
+[1] username<Br>
+[2] device_name<Br>
+[3] ip<Br>
+[4] command<Br>
+[5] command in json<Br>
+[6] access status </td>
+	</tr>
+	<tr>
+		<td> Output Argument </td>
+		<td> Tango::DEV_BOOLEAN </td>
+		<td>  </td>
 	</tr>
 	<tr>
 		<td> DisplayLevel </td>

@@ -232,6 +232,25 @@ CORBA::Any *check_userClass::execute(Tango::DeviceImpl *device, const CORBA::Any
 	return insert((static_cast<WebAuthTng2 *>(device))->check_user(argin));
 }
 
+//--------------------------------------------------------
+/**
+ * method : 		Send_log_command_exClass::execute()
+ * description : 	method to trigger the execution of the command.
+ *
+ * @param	device	The device on which the command must be executed
+ * @param	in_any	The command input data
+ *
+ *	returns The command output data (packed in the Any object)
+ */
+//--------------------------------------------------------
+CORBA::Any *Send_log_command_exClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
+{
+	cout2 << "Send_log_command_exClass::execute(): arrived" << endl;
+	const Tango::DevVarStringArray *argin;
+	extract(in_any, argin);
+	return insert((static_cast<WebAuthTng2 *>(device))->send_log_command_ex(argin));
+}
+
 
 //===================================================================
 //	Properties management
@@ -627,6 +646,15 @@ void WebAuthTng2Class::command_factory()
 			"true if user was authorised",
 			Tango::OPERATOR);
 	command_list.push_back(pcheck_userCmd);
+
+	//	Command Send_log_command_ex
+	Send_log_command_exClass	*pSend_log_command_exCmd =
+		new Send_log_command_exClass("Send_log_command_ex",
+			Tango::DEVVAR_STRINGARRAY, Tango::DEV_BOOLEAN,
+			"Strings:\n[0] datetime in UNIX_TIMESTAMP formate\n[1] username\n[2] device_name\n[3] ip\n[4] command\n[5] command in json\n[6] access status",
+			"",
+			Tango::OPERATOR);
+	command_list.push_back(pSend_log_command_exCmd);
 
 	/*----- PROTECTED REGION ID(WebAuthTng2Class::command_factory_after) ENABLED START -----*/
     
