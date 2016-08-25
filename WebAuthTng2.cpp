@@ -381,7 +381,7 @@ Tango::DevBoolean WebAuthTng2::check_permissions(const Tango::DevVarStringArray 
         {
             MysqlPing();
             std::stringstream ss;
-            ss << "select username, priority from access_rights where username='" << login << "' and '" << device << "/" << cmd << "' REGEXP device_name and '" << "ip" << "' REGEXP ip ORDER by priority";
+            ss << "select username, priority from access_rights where username='" << login << "' and '" << device << "/" << cmd << "' REGEXP device_name and '" << ip << "' REGEXP ip ORDER by priority;";
             mysql_query(connection, ss.str().c_str());
             CheckError();
 
