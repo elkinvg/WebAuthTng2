@@ -67,6 +67,7 @@
 				<li> <a href="FullDocument.html#cmdcheck_permissions"> check_permissions </a>
 				<li> <a href="FullDocument.html#cmdcheck_user"> check_user </a>
 				<li> <a href="FullDocument.html#cmdSend_log_command_ex"> Send_log_command_ex </a>
+				<li> <a href="FullDocument.html#cmdcheck_user_ident"> check_user_ident </a>
 			</ul>
 			<li> <a href="FullDocument.html#attributes">   Attributes   </a>
 			<ul>
@@ -165,6 +166,18 @@
 		<td> String </td>
 		<td> tango_web_auth <br> </td>
 	</tr>
+	<tr>
+		<td> dbuser </td>
+		<td> Db User  to read authentication database. </td>
+		<td> String </td>
+		<td> none </td>
+	</tr>
+	<tr>
+		<td> dbpass </td>
+		<td> Db password to read authentication database. </td>
+		<td> String </td>
+		<td> none </td>
+	</tr>
 </table>
 <br><br>
 <hr>
@@ -228,6 +241,13 @@
 		<td> DEV_BOOLEAN </td>
 		<td> OPERATOR </td>
 		<td> Send log to DB about command execute </td>
+	</tr>
+	<tr>
+		<td> <a href="Cmdcheck_user_ident.html"> check_user_ident </a> </td>
+		<td> DEV_STRING </td>
+		<td> DEV_VOID </td>
+		<td> OPERATOR </td>
+		<td> None. </td>
 	</tr>
 </table>
 <br><br><hr>
@@ -555,6 +575,58 @@ argin[1]:password; </td>
 		<td> Output Argument </td>
 		<td> Tango::DEV_BOOLEAN </td>
 		<td>  </td>
+	</tr>
+	<tr>
+		<td> DisplayLevel </td>
+		<td> OPERATOR </td>
+		<td> .. </td>
+	</tr>
+	<tr>
+		<td> Inherited </td>
+		<td> false </td>
+		<td> .. </td>
+	</tr>
+	<tr>
+		<td> Abstract </td>
+		<td> false </td>
+		<td> .. </td>
+	</tr>
+	<tr>
+		<td> Polling Period </td>
+		<td> Not polled </td>
+		<td> .. </td>
+	</tr>
+<Tr BGCOLOR="#CCCCFF"><Td><Hr></Td><Td><Hr></Td><Td><Hr></Td></Tr>
+	<tr>
+		<td> Command allowed for </td>
+		<td> All states </td>
+		<td> .. </td>
+	</tr>
+</table>
+<br><br><hr>
+<a name="cmdcheck_user_ident"> </a>
+<br><br><br>
+<font size="+1"><u><b> Command check_user_ident : </b></u></font>
+<ul>
+</ul>
+<br><br><br>
+<Table Border=2 Cellpadding=3 CELLSPACING=0>
+	<tr bgcolor="#CCCCFF" class="TableHeadingColor">
+	<td colspan=0> <font size=+1> <center><b> check_user_ident Definition </b></font></center></td>
+	</tr>
+	<tr>
+		<td> Input Argument </td>
+		<td> Tango::DEV_STRING </td>
+		<td> Strings:<Br>
+arg[0]: login // user login<Br>
+arg[1]: id_ri // id rand_identification<Br>
+arg[2]: rand_ident // rand_identification<Br>
+arg[3]: rand_ident_hash // hash of rand_identification </td>
+	</tr>
+	<tr>
+		<td> Output Argument </td>
+		<td> Tango::DEV_VOID </td>
+		<td> true if user was authorised </td>
 	</tr>
 	<tr>
 		<td> DisplayLevel </td>

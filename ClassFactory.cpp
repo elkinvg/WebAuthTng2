@@ -53,4 +53,4 @@ void Tango::DServer::class_factory()
     //    Add method class init if needed
     add_class(WebAuthTng2_ns::WebAuthTng2Class::init("WebAuthTng2"));
 }
-/*----- PROTECTED REGION END -----*/	//	WebAuthTng2::ClassFactory.cpp
+/*----- PROTECTED REGION END -----*/    //    WebAuthTng2::ClassFactory.cpp
