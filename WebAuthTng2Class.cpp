@@ -46,12 +46,12 @@ static const char *HttpServer = "http://www.esrf.eu/computing/cs/tango/tango_doc
 
 #include <WebAuthTng2Class.h>
 
-/*----- PROTECTED REGION END -----*/    //    WebAuthTng2Class.cpp
+/*----- PROTECTED REGION END -----*/	//	WebAuthTng2Class.cpp
 
 //-------------------------------------------------------------------
 /**
- *    Create WebAuthTng2Class singleton and
- *    return it in a C function for Python usage
+ *	Create WebAuthTng2Class singleton and
+ *	return it in a C function for Python usage
  */
 //-------------------------------------------------------------------
 extern "C" {
@@ -61,270 +61,270 @@ __declspec(dllexport)
 
 #endif
 
-    Tango::DeviceClass *_create_WebAuthTng2_class(const char *name) {
-        return WebAuthTng2_ns::WebAuthTng2Class::init(name);
-    }
+	Tango::DeviceClass *_create_WebAuthTng2_class(const char *name) {
+		return WebAuthTng2_ns::WebAuthTng2Class::init(name);
+	}
 }
 
 namespace WebAuthTng2_ns
 {
 //===================================================================
-//    Initialize pointer for singleton pattern
+//	Initialize pointer for singleton pattern
 //===================================================================
 WebAuthTng2Class *WebAuthTng2Class::_instance = NULL;
 
 //--------------------------------------------------------
 /**
- * method :         WebAuthTng2Class::WebAuthTng2Class(string &s)
- * description :     constructor for the WebAuthTng2Class
+ * method : 		WebAuthTng2Class::WebAuthTng2Class(string &s)
+ * description : 	constructor for the WebAuthTng2Class
  *
- * @param s    The class name
+ * @param s	The class name
  */
 //--------------------------------------------------------
 WebAuthTng2Class::WebAuthTng2Class(string &s):Tango::DeviceClass(s)
 {
-    cout2 << "Entering WebAuthTng2Class constructor" << endl;
-    set_default_property();
-    write_class_property();
+	cout2 << "Entering WebAuthTng2Class constructor" << endl;
+	set_default_property();
+	write_class_property();
 
-    /*----- PROTECTED REGION ID(WebAuthTng2Class::constructor) ENABLED START -----*/
+	/*----- PROTECTED REGION ID(WebAuthTng2Class::constructor) ENABLED START -----*/
     
-    /*----- PROTECTED REGION END -----*/    //    WebAuthTng2Class::constructor
+    /*----- PROTECTED REGION END -----*/	//	WebAuthTng2Class::constructor
 
-    cout2 << "Leaving WebAuthTng2Class constructor" << endl;
+	cout2 << "Leaving WebAuthTng2Class constructor" << endl;
 }
 
 //--------------------------------------------------------
 /**
- * method :         WebAuthTng2Class::~WebAuthTng2Class()
- * description :     destructor for the WebAuthTng2Class
+ * method : 		WebAuthTng2Class::~WebAuthTng2Class()
+ * description : 	destructor for the WebAuthTng2Class
  */
 //--------------------------------------------------------
 WebAuthTng2Class::~WebAuthTng2Class()
 {
-    /*----- PROTECTED REGION ID(WebAuthTng2Class::destructor) ENABLED START -----*/
+	/*----- PROTECTED REGION ID(WebAuthTng2Class::destructor) ENABLED START -----*/
     
-    /*----- PROTECTED REGION END -----*/    //    WebAuthTng2Class::destructor
+    /*----- PROTECTED REGION END -----*/	//	WebAuthTng2Class::destructor
 
-    _instance = NULL;
+	_instance = NULL;
 }
 
 
 //--------------------------------------------------------
 /**
- * method :         WebAuthTng2Class::init
- * description :     Create the object if not already done.
+ * method : 		WebAuthTng2Class::init
+ * description : 	Create the object if not already done.
  *                  Otherwise, just return a pointer to the object
  *
- * @param    name    The class name
+ * @param	name	The class name
  */
 //--------------------------------------------------------
 WebAuthTng2Class *WebAuthTng2Class::init(const char *name)
 {
-    if (_instance == NULL)
-    {
-        try
-        {
-            string s(name);
-            _instance = new WebAuthTng2Class(s);
-        }
-        catch (bad_alloc &)
-        {
-            throw;
-        }
-    }
-    return _instance;
+	if (_instance == NULL)
+	{
+		try
+		{
+			string s(name);
+			_instance = new WebAuthTng2Class(s);
+		}
+		catch (bad_alloc &)
+		{
+			throw;
+		}
+	}
+	return _instance;
 }
 
 //--------------------------------------------------------
 /**
- * method :         WebAuthTng2Class::instance
- * description :     Check if object already created,
+ * method : 		WebAuthTng2Class::instance
+ * description : 	Check if object already created,
  *                  and return a pointer to the object
  */
 //--------------------------------------------------------
 WebAuthTng2Class *WebAuthTng2Class::instance()
 {
-    if (_instance == NULL)
-    {
-        cerr << "Class is not initialised !!" << endl;
-        exit(-1);
-    }
-    return _instance;
+	if (_instance == NULL)
+	{
+		cerr << "Class is not initialised !!" << endl;
+		exit(-1);
+	}
+	return _instance;
 }
 
 
 
 //===================================================================
-//    Command execution method calls
+//	Command execution method calls
 //===================================================================
 //--------------------------------------------------------
 /**
- * method :         OnClass::execute()
- * description :     method to trigger the execution of the command.
+ * method : 		OnClass::execute()
+ * description : 	method to trigger the execution of the command.
  *
- * @param    device    The device on which the command must be executed
- * @param    in_any    The command input data
+ * @param	device	The device on which the command must be executed
+ * @param	in_any	The command input data
  *
- *    returns The command output data (packed in the Any object)
+ *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
 CORBA::Any *OnClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
 {
-    cout2 << "OnClass::execute(): arrived" << endl;
-    ((static_cast<WebAuthTng2 *>(device))->on());
-    return new CORBA::Any();
+	cout2 << "OnClass::execute(): arrived" << endl;
+	((static_cast<WebAuthTng2 *>(device))->on());
+	return new CORBA::Any();
 }
 
 //--------------------------------------------------------
 /**
- * method :         OffClass::execute()
- * description :     method to trigger the execution of the command.
+ * method : 		OffClass::execute()
+ * description : 	method to trigger the execution of the command.
  *
- * @param    device    The device on which the command must be executed
- * @param    in_any    The command input data
+ * @param	device	The device on which the command must be executed
+ * @param	in_any	The command input data
  *
- *    returns The command output data (packed in the Any object)
+ *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
 CORBA::Any *OffClass::execute(Tango::DeviceImpl *device, TANGO_UNUSED(const CORBA::Any &in_any))
 {
-    cout2 << "OffClass::execute(): arrived" << endl;
-    ((static_cast<WebAuthTng2 *>(device))->off());
-    return new CORBA::Any();
+	cout2 << "OffClass::execute(): arrived" << endl;
+	((static_cast<WebAuthTng2 *>(device))->off());
+	return new CORBA::Any();
 }
 
 //--------------------------------------------------------
 /**
- * method :         check_permissionsClass::execute()
- * description :     method to trigger the execution of the command.
+ * method : 		check_permissionsClass::execute()
+ * description : 	method to trigger the execution of the command.
  *
- * @param    device    The device on which the command must be executed
- * @param    in_any    The command input data
+ * @param	device	The device on which the command must be executed
+ * @param	in_any	The command input data
  *
- *    returns The command output data (packed in the Any object)
+ *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
 CORBA::Any *check_permissionsClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
-    cout2 << "check_permissionsClass::execute(): arrived" << endl;
-    const Tango::DevVarStringArray *argin;
-    extract(in_any, argin);
-    return insert((static_cast<WebAuthTng2 *>(device))->check_permissions(argin));
+	cout2 << "check_permissionsClass::execute(): arrived" << endl;
+	const Tango::DevVarStringArray *argin;
+	extract(in_any, argin);
+	return insert((static_cast<WebAuthTng2 *>(device))->check_permissions(argin));
 }
 
 //--------------------------------------------------------
 /**
- * method :         check_userClass::execute()
- * description :     method to trigger the execution of the command.
+ * method : 		check_userClass::execute()
+ * description : 	method to trigger the execution of the command.
  *
- * @param    device    The device on which the command must be executed
- * @param    in_any    The command input data
+ * @param	device	The device on which the command must be executed
+ * @param	in_any	The command input data
  *
- *    returns The command output data (packed in the Any object)
+ *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
 CORBA::Any *check_userClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
-    cout2 << "check_userClass::execute(): arrived" << endl;
-    const Tango::DevVarStringArray *argin;
-    extract(in_any, argin);
-    return insert((static_cast<WebAuthTng2 *>(device))->check_user(argin));
+	cout2 << "check_userClass::execute(): arrived" << endl;
+	const Tango::DevVarStringArray *argin;
+	extract(in_any, argin);
+	return insert((static_cast<WebAuthTng2 *>(device))->check_user(argin));
 }
 
 //--------------------------------------------------------
 /**
- * method :         Send_log_command_exClass::execute()
- * description :     method to trigger the execution of the command.
+ * method : 		Send_log_command_exClass::execute()
+ * description : 	method to trigger the execution of the command.
  *
- * @param    device    The device on which the command must be executed
- * @param    in_any    The command input data
+ * @param	device	The device on which the command must be executed
+ * @param	in_any	The command input data
  *
- *    returns The command output data (packed in the Any object)
+ *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
 CORBA::Any *Send_log_command_exClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
-    cout2 << "Send_log_command_exClass::execute(): arrived" << endl;
-    const Tango::DevVarStringArray *argin;
-    extract(in_any, argin);
-    return insert((static_cast<WebAuthTng2 *>(device))->send_log_command_ex(argin));
+	cout2 << "Send_log_command_exClass::execute(): arrived" << endl;
+	const Tango::DevVarStringArray *argin;
+	extract(in_any, argin);
+	return insert((static_cast<WebAuthTng2 *>(device))->send_log_command_ex(argin));
 }
 
 //--------------------------------------------------------
 /**
- * method :         check_user_identClass::execute()
- * description :     method to trigger the execution of the command.
+ * method : 		check_user_identClass::execute()
+ * description : 	method to trigger the execution of the command.
  *
- * @param    device    The device on which the command must be executed
- * @param    in_any    The command input data
+ * @param	device	The device on which the command must be executed
+ * @param	in_any	The command input data
  *
- *    returns The command output data (packed in the Any object)
+ *	returns The command output data (packed in the Any object)
  */
 //--------------------------------------------------------
 CORBA::Any *check_user_identClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
 {
-    cout2 << "check_user_identClass::execute(): arrived" << endl;
-    Tango::DevString argin;
-    extract(in_any, argin);
-    ((static_cast<WebAuthTng2 *>(device))->check_user_ident(argin));
-    return new CORBA::Any();
+	cout2 << "check_user_identClass::execute(): arrived" << endl;
+	const Tango::DevVarStringArray *argin;
+	extract(in_any, argin);
+	((static_cast<WebAuthTng2 *>(device))->check_user_ident(argin));
+	return new CORBA::Any();
 }
 
 
 //===================================================================
-//    Properties management
+//	Properties management
 //===================================================================
 //--------------------------------------------------------
 /**
- *    Method      : WebAuthTng2Class::get_class_property()
- *    Description : Get the class property for specified name.
+ *	Method      : WebAuthTng2Class::get_class_property()
+ *	Description : Get the class property for specified name.
  */
 //--------------------------------------------------------
 Tango::DbDatum WebAuthTng2Class::get_class_property(string &prop_name)
 {
-    for (unsigned int i=0 ; i<cl_prop.size() ; i++)
-        if (cl_prop[i].name == prop_name)
-            return cl_prop[i];
-    //    if not found, returns  an empty DbDatum
-    return Tango::DbDatum(prop_name);
+	for (unsigned int i=0 ; i<cl_prop.size() ; i++)
+		if (cl_prop[i].name == prop_name)
+			return cl_prop[i];
+	//	if not found, returns  an empty DbDatum
+	return Tango::DbDatum(prop_name);
 }
 
 //--------------------------------------------------------
 /**
- *    Method      : WebAuthTng2Class::get_default_device_property()
- *    Description : Return the default value for device property.
+ *	Method      : WebAuthTng2Class::get_default_device_property()
+ *	Description : Return the default value for device property.
  */
 //--------------------------------------------------------
 Tango::DbDatum WebAuthTng2Class::get_default_device_property(string &prop_name)
 {
-    for (unsigned int i=0 ; i<dev_def_prop.size() ; i++)
-        if (dev_def_prop[i].name == prop_name)
-            return dev_def_prop[i];
-    //    if not found, return  an empty DbDatum
-    return Tango::DbDatum(prop_name);
+	for (unsigned int i=0 ; i<dev_def_prop.size() ; i++)
+		if (dev_def_prop[i].name == prop_name)
+			return dev_def_prop[i];
+	//	if not found, return  an empty DbDatum
+	return Tango::DbDatum(prop_name);
 }
 
 //--------------------------------------------------------
 /**
- *    Method      : WebAuthTng2Class::get_default_class_property()
- *    Description : Return the default value for class property.
+ *	Method      : WebAuthTng2Class::get_default_class_property()
+ *	Description : Return the default value for class property.
  */
 //--------------------------------------------------------
 Tango::DbDatum WebAuthTng2Class::get_default_class_property(string &prop_name)
 {
-    for (unsigned int i=0 ; i<cl_def_prop.size() ; i++)
-        if (cl_def_prop[i].name == prop_name)
-            return cl_def_prop[i];
-    //    if not found, return  an empty DbDatum
-    return Tango::DbDatum(prop_name);
+	for (unsigned int i=0 ; i<cl_def_prop.size() ; i++)
+		if (cl_def_prop[i].name == prop_name)
+			return cl_def_prop[i];
+	//	if not found, return  an empty DbDatum
+	return Tango::DbDatum(prop_name);
 }
 
 
 //--------------------------------------------------------
 /**
- *    Method      : WebAuthTng2Class::set_default_property()
- *    Description : Set default property (class and device) for wizard.
+ *	Method      : WebAuthTng2Class::set_default_property()
+ *	Description : Set default property (class and device) for wizard.
  *                For each property, add to wizard property name and description.
  *                If default value has been set, add it to wizard property and
  *                store it in a DbDatum.
@@ -332,479 +332,479 @@ Tango::DbDatum WebAuthTng2Class::get_default_class_property(string &prop_name)
 //--------------------------------------------------------
 void WebAuthTng2Class::set_default_property()
 {
-    string    prop_name;
-    string    prop_desc;
-    string    prop_def;
-    vector<string>    vect_data;
+	string	prop_name;
+	string	prop_desc;
+	string	prop_def;
+	vector<string>	vect_data;
 
-    //    Set Default Class Properties
+	//	Set Default Class Properties
 
-    //    Set Default device Properties
-    prop_name = "MailAgentDevice";
-    prop_desc = "Tango device with mail-agent for sending email.";
-    prop_def  = "";
-    vect_data.clear();
-    if (prop_def.length()>0)
-    {
-        Tango::DbDatum    data(prop_name);
-        data << vect_data ;
-        dev_def_prop.push_back(data);
-        add_wiz_dev_prop(prop_name, prop_desc,  prop_def);
-    }
-    else
-        add_wiz_dev_prop(prop_name, prop_desc);
-    prop_name = "dbhost";
-    prop_desc = "Database host";
-    prop_def  = "127.0.0.1";
-    vect_data.clear();
-    vect_data.push_back("127.0.0.1");
-    if (prop_def.length()>0)
-    {
-        Tango::DbDatum    data(prop_name);
-        data << vect_data ;
-        dev_def_prop.push_back(data);
-        add_wiz_dev_prop(prop_name, prop_desc,  prop_def);
-    }
-    else
-        add_wiz_dev_prop(prop_name, prop_desc);
-    prop_name = "dbname";
-    prop_desc = "Db name containg the user information.";
-    prop_def  = "tango_web_auth";
-    vect_data.clear();
-    vect_data.push_back("tango_web_auth");
-    if (prop_def.length()>0)
-    {
-        Tango::DbDatum    data(prop_name);
-        data << vect_data ;
-        dev_def_prop.push_back(data);
-        add_wiz_dev_prop(prop_name, prop_desc,  prop_def);
-    }
-    else
-        add_wiz_dev_prop(prop_name, prop_desc);
-    prop_name = "dbuser";
-    prop_desc = "Db User  to read authentication database.";
-    prop_def  = "";
-    vect_data.clear();
-    if (prop_def.length()>0)
-    {
-        Tango::DbDatum    data(prop_name);
-        data << vect_data ;
-        dev_def_prop.push_back(data);
-        add_wiz_dev_prop(prop_name, prop_desc,  prop_def);
-    }
-    else
-        add_wiz_dev_prop(prop_name, prop_desc);
-    prop_name = "dbpass";
-    prop_desc = "Db password to read authentication database.";
-    prop_def  = "";
-    vect_data.clear();
-    if (prop_def.length()>0)
-    {
-        Tango::DbDatum    data(prop_name);
-        data << vect_data ;
-        dev_def_prop.push_back(data);
-        add_wiz_dev_prop(prop_name, prop_desc,  prop_def);
-    }
-    else
-        add_wiz_dev_prop(prop_name, prop_desc);
+	//	Set Default device Properties
+	prop_name = "MailAgentDevice";
+	prop_desc = "Tango device with mail-agent for sending email.";
+	prop_def  = "";
+	vect_data.clear();
+	if (prop_def.length()>0)
+	{
+		Tango::DbDatum	data(prop_name);
+		data << vect_data ;
+		dev_def_prop.push_back(data);
+		add_wiz_dev_prop(prop_name, prop_desc,  prop_def);
+	}
+	else
+		add_wiz_dev_prop(prop_name, prop_desc);
+	prop_name = "dbhost";
+	prop_desc = "Database host";
+	prop_def  = "127.0.0.1";
+	vect_data.clear();
+	vect_data.push_back("127.0.0.1");
+	if (prop_def.length()>0)
+	{
+		Tango::DbDatum	data(prop_name);
+		data << vect_data ;
+		dev_def_prop.push_back(data);
+		add_wiz_dev_prop(prop_name, prop_desc,  prop_def);
+	}
+	else
+		add_wiz_dev_prop(prop_name, prop_desc);
+	prop_name = "dbname";
+	prop_desc = "Db name containg the user information.";
+	prop_def  = "tango_web_auth";
+	vect_data.clear();
+	vect_data.push_back("tango_web_auth");
+	if (prop_def.length()>0)
+	{
+		Tango::DbDatum	data(prop_name);
+		data << vect_data ;
+		dev_def_prop.push_back(data);
+		add_wiz_dev_prop(prop_name, prop_desc,  prop_def);
+	}
+	else
+		add_wiz_dev_prop(prop_name, prop_desc);
+	prop_name = "dbuser";
+	prop_desc = "Db User  to read authentication database.";
+	prop_def  = "";
+	vect_data.clear();
+	if (prop_def.length()>0)
+	{
+		Tango::DbDatum	data(prop_name);
+		data << vect_data ;
+		dev_def_prop.push_back(data);
+		add_wiz_dev_prop(prop_name, prop_desc,  prop_def);
+	}
+	else
+		add_wiz_dev_prop(prop_name, prop_desc);
+	prop_name = "dbpass";
+	prop_desc = "Db password to read authentication database.";
+	prop_def  = "";
+	vect_data.clear();
+	if (prop_def.length()>0)
+	{
+		Tango::DbDatum	data(prop_name);
+		data << vect_data ;
+		dev_def_prop.push_back(data);
+		add_wiz_dev_prop(prop_name, prop_desc,  prop_def);
+	}
+	else
+		add_wiz_dev_prop(prop_name, prop_desc);
 }
 
 //--------------------------------------------------------
 /**
- *    Method      : WebAuthTng2Class::write_class_property()
- *    Description : Set class description fields as property in database
+ *	Method      : WebAuthTng2Class::write_class_property()
+ *	Description : Set class description fields as property in database
  */
 //--------------------------------------------------------
 void WebAuthTng2Class::write_class_property()
 {
-    //    First time, check if database used
-    if (Tango::Util::_UseDb == false)
-        return;
+	//	First time, check if database used
+	if (Tango::Util::_UseDb == false)
+		return;
 
-    Tango::DbData    data;
-    string    classname = get_name();
-    string    header;
-    string::size_type    start, end;
+	Tango::DbData	data;
+	string	classname = get_name();
+	string	header;
+	string::size_type	start, end;
 
-    //    Put title
-    Tango::DbDatum    title("ProjectTitle");
-    string    str_title("Tango web authentication device server");
-    title << str_title;
-    data.push_back(title);
+	//	Put title
+	Tango::DbDatum	title("ProjectTitle");
+	string	str_title("Tango web authentication device server");
+	title << str_title;
+	data.push_back(title);
 
-    //    Put Description
-    Tango::DbDatum    description("Description");
-    vector<string>    str_desc;
-    str_desc.push_back("Device server to provide basic web authorization and check access permissions.");
-    str_desc.push_back("(MySQL database needed).");
-    description << str_desc;
-    data.push_back(description);
+	//	Put Description
+	Tango::DbDatum	description("Description");
+	vector<string>	str_desc;
+	str_desc.push_back("Device server to provide basic web authorization and check access permissions.");
+	str_desc.push_back("(MySQL database needed).");
+	description << str_desc;
+	data.push_back(description);
 
-    //    put cvs or svn location
-    string    filename("WebAuthTng2");
-    filename += "Class.cpp";
+	//	put cvs or svn location
+	string	filename("WebAuthTng2");
+	filename += "Class.cpp";
 
-    // check for cvs information
-    string    src_path(CvsPath);
-    start = src_path.find("/");
-    if (start!=string::npos)
-    {
-        end   = src_path.find(filename);
-        if (end>start)
-        {
-            string    strloc = src_path.substr(start, end-start);
-            //    Check if specific repository
-            start = strloc.find("/cvsroot/");
-            if (start!=string::npos && start>0)
-            {
-                string    repository = strloc.substr(0, start);
-                if (repository.find("/segfs/")!=string::npos)
-                    strloc = "ESRF:" + strloc.substr(start, strloc.length()-start);
-            }
-            Tango::DbDatum    cvs_loc("cvs_location");
-            cvs_loc << strloc;
-            data.push_back(cvs_loc);
-        }
-    }
+	// check for cvs information
+	string	src_path(CvsPath);
+	start = src_path.find("/");
+	if (start!=string::npos)
+	{
+		end   = src_path.find(filename);
+		if (end>start)
+		{
+			string	strloc = src_path.substr(start, end-start);
+			//	Check if specific repository
+			start = strloc.find("/cvsroot/");
+			if (start!=string::npos && start>0)
+			{
+				string	repository = strloc.substr(0, start);
+				if (repository.find("/segfs/")!=string::npos)
+					strloc = "ESRF:" + strloc.substr(start, strloc.length()-start);
+			}
+			Tango::DbDatum	cvs_loc("cvs_location");
+			cvs_loc << strloc;
+			data.push_back(cvs_loc);
+		}
+	}
 
-    // check for svn information
-    else
-    {
-        string    src_path(SvnPath);
-        start = src_path.find("://");
-        if (start!=string::npos)
-        {
-            end = src_path.find(filename);
-            if (end>start)
-            {
-                header = "$HeadURL: ";
-                start = header.length();
-                string    strloc = src_path.substr(start, (end-start));
-                
-                Tango::DbDatum    svn_loc("svn_location");
-                svn_loc << strloc;
-                data.push_back(svn_loc);
-            }
-        }
-    }
+	// check for svn information
+	else
+	{
+		string	src_path(SvnPath);
+		start = src_path.find("://");
+		if (start!=string::npos)
+		{
+			end = src_path.find(filename);
+			if (end>start)
+			{
+				header = "$HeadURL: ";
+				start = header.length();
+				string	strloc = src_path.substr(start, (end-start));
+				
+				Tango::DbDatum	svn_loc("svn_location");
+				svn_loc << strloc;
+				data.push_back(svn_loc);
+			}
+		}
+	}
 
-    //    Get CVS or SVN revision tag
-    
-    // CVS tag
-    string    tagname(TagName);
-    header = "$Name: ";
-    start = header.length();
-    string    endstr(" $");
-    
-    end   = tagname.find(endstr);
-    if (end!=string::npos && end>start)
-    {
-        string    strtag = tagname.substr(start, end-start);
-        Tango::DbDatum    cvs_tag("cvs_tag");
-        cvs_tag << strtag;
-        data.push_back(cvs_tag);
-    }
-    
-    // SVN tag
-    string    svnpath(SvnPath);
-    header = "$HeadURL: ";
-    start = header.length();
-    
-    end   = svnpath.find(endstr);
-    if (end!=string::npos && end>start)
-    {
-        string    strloc = svnpath.substr(start, end-start);
-        
-        string tagstr ("/tags/");
-        start = strloc.find(tagstr);
-        if ( start!=string::npos )
-        {
-            start = start + tagstr.length();
-            end   = strloc.find(filename);
-            string    strtag = strloc.substr(start, end-start-1);
-            
-            Tango::DbDatum    svn_tag("svn_tag");
-            svn_tag << strtag;
-            data.push_back(svn_tag);
-        }
-    }
+	//	Get CVS or SVN revision tag
+	
+	// CVS tag
+	string	tagname(TagName);
+	header = "$Name: ";
+	start = header.length();
+	string	endstr(" $");
+	
+	end   = tagname.find(endstr);
+	if (end!=string::npos && end>start)
+	{
+		string	strtag = tagname.substr(start, end-start);
+		Tango::DbDatum	cvs_tag("cvs_tag");
+		cvs_tag << strtag;
+		data.push_back(cvs_tag);
+	}
+	
+	// SVN tag
+	string	svnpath(SvnPath);
+	header = "$HeadURL: ";
+	start = header.length();
+	
+	end   = svnpath.find(endstr);
+	if (end!=string::npos && end>start)
+	{
+		string	strloc = svnpath.substr(start, end-start);
+		
+		string tagstr ("/tags/");
+		start = strloc.find(tagstr);
+		if ( start!=string::npos )
+		{
+			start = start + tagstr.length();
+			end   = strloc.find(filename);
+			string	strtag = strloc.substr(start, end-start-1);
+			
+			Tango::DbDatum	svn_tag("svn_tag");
+			svn_tag << strtag;
+			data.push_back(svn_tag);
+		}
+	}
 
-    //    Get URL location
-    string    httpServ(HttpServer);
-    if (httpServ.length()>0)
-    {
-        Tango::DbDatum    db_doc_url("doc_url");
-        db_doc_url << httpServ;
-        data.push_back(db_doc_url);
-    }
+	//	Get URL location
+	string	httpServ(HttpServer);
+	if (httpServ.length()>0)
+	{
+		Tango::DbDatum	db_doc_url("doc_url");
+		db_doc_url << httpServ;
+		data.push_back(db_doc_url);
+	}
 
-    //  Put inheritance
-    Tango::DbDatum    inher_datum("InheritedFrom");
-    vector<string> inheritance;
-    inheritance.push_back("TANGO_BASE_CLASS");
-    inher_datum << inheritance;
-    data.push_back(inher_datum);
+	//  Put inheritance
+	Tango::DbDatum	inher_datum("InheritedFrom");
+	vector<string> inheritance;
+	inheritance.push_back("TANGO_BASE_CLASS");
+	inher_datum << inheritance;
+	data.push_back(inher_datum);
 
-    //    Call database and and values
-    get_db_class()->put_property(data);
+	//	Call database and and values
+	get_db_class()->put_property(data);
 }
 
 //===================================================================
-//    Factory methods
+//	Factory methods
 //===================================================================
 
 //--------------------------------------------------------
 /**
- *    Method      : WebAuthTng2Class::device_factory()
- *    Description : Create the device object(s)
+ *	Method      : WebAuthTng2Class::device_factory()
+ *	Description : Create the device object(s)
  *                and store them in the device list
  */
 //--------------------------------------------------------
 void WebAuthTng2Class::device_factory(const Tango::DevVarStringArray *devlist_ptr)
 {
-    /*----- PROTECTED REGION ID(WebAuthTng2Class::device_factory_before) ENABLED START -----*/
+	/*----- PROTECTED REGION ID(WebAuthTng2Class::device_factory_before) ENABLED START -----*/
     
     //    Add your own code
     
-    /*----- PROTECTED REGION END -----*/    //    WebAuthTng2Class::device_factory_before
+    /*----- PROTECTED REGION END -----*/	//	WebAuthTng2Class::device_factory_before
 
-    //    Create devices and add it into the device list
-    for (unsigned long i=0 ; i<devlist_ptr->length() ; i++)
-    {
-        cout4 << "Device name : " << (*devlist_ptr)[i].in() << endl;
-        device_list.push_back(new WebAuthTng2(this, (*devlist_ptr)[i]));
-    }
+	//	Create devices and add it into the device list
+	for (unsigned long i=0 ; i<devlist_ptr->length() ; i++)
+	{
+		cout4 << "Device name : " << (*devlist_ptr)[i].in() << endl;
+		device_list.push_back(new WebAuthTng2(this, (*devlist_ptr)[i]));
+	}
 
-    //    Manage dynamic attributes if any
-    erase_dynamic_attributes(devlist_ptr, get_class_attr()->get_attr_list());
+	//	Manage dynamic attributes if any
+	erase_dynamic_attributes(devlist_ptr, get_class_attr()->get_attr_list());
 
-    //    Export devices to the outside world
-    for (unsigned long i=1 ; i<=devlist_ptr->length() ; i++)
-    {
-        //    Add dynamic attributes if any
-        WebAuthTng2 *dev = static_cast<WebAuthTng2 *>(device_list[device_list.size()-i]);
-        dev->add_dynamic_attributes();
+	//	Export devices to the outside world
+	for (unsigned long i=1 ; i<=devlist_ptr->length() ; i++)
+	{
+		//	Add dynamic attributes if any
+		WebAuthTng2 *dev = static_cast<WebAuthTng2 *>(device_list[device_list.size()-i]);
+		dev->add_dynamic_attributes();
 
-        //    Check before if database used.
-        if ((Tango::Util::_UseDb == true) && (Tango::Util::_FileDb == false))
-            export_device(dev);
-        else
-            export_device(dev, dev->get_name().c_str());
-    }
+		//	Check before if database used.
+		if ((Tango::Util::_UseDb == true) && (Tango::Util::_FileDb == false))
+			export_device(dev);
+		else
+			export_device(dev, dev->get_name().c_str());
+	}
 
-    /*----- PROTECTED REGION ID(WebAuthTng2Class::device_factory_after) ENABLED START -----*/
+	/*----- PROTECTED REGION ID(WebAuthTng2Class::device_factory_after) ENABLED START -----*/
     
     //    Add your own code
     
-    /*----- PROTECTED REGION END -----*/    //    WebAuthTng2Class::device_factory_after
+    /*----- PROTECTED REGION END -----*/	//	WebAuthTng2Class::device_factory_after
 }
 //--------------------------------------------------------
 /**
- *    Method      : WebAuthTng2Class::attribute_factory()
- *    Description : Create the attribute object(s)
+ *	Method      : WebAuthTng2Class::attribute_factory()
+ *	Description : Create the attribute object(s)
  *                and store them in the attribute list
  */
 //--------------------------------------------------------
 void WebAuthTng2Class::attribute_factory(vector<Tango::Attr *> &att_list)
 {
-    /*----- PROTECTED REGION ID(WebAuthTng2Class::attribute_factory_before) ENABLED START -----*/
+	/*----- PROTECTED REGION ID(WebAuthTng2Class::attribute_factory_before) ENABLED START -----*/
     
     //    Add your own code
     
-    /*----- PROTECTED REGION END -----*/    //    WebAuthTng2Class::attribute_factory_before
+    /*----- PROTECTED REGION END -----*/	//	WebAuthTng2Class::attribute_factory_before
 
-    //    Create a list of static attributes
-    create_static_attribute_list(get_class_attr()->get_attr_list());
-    /*----- PROTECTED REGION ID(WebAuthTng2Class::attribute_factory_after) ENABLED START -----*/
+	//	Create a list of static attributes
+	create_static_attribute_list(get_class_attr()->get_attr_list());
+	/*----- PROTECTED REGION ID(WebAuthTng2Class::attribute_factory_after) ENABLED START -----*/
     
     //    Add your own code
     
-    /*----- PROTECTED REGION END -----*/    //    WebAuthTng2Class::attribute_factory_after
+    /*----- PROTECTED REGION END -----*/	//	WebAuthTng2Class::attribute_factory_after
 }
 //--------------------------------------------------------
 /**
- *    Method      : WebAuthTng2Class::pipe_factory()
- *    Description : Create the pipe object(s)
+ *	Method      : WebAuthTng2Class::pipe_factory()
+ *	Description : Create the pipe object(s)
  *                and store them in the pipe list
  */
 //--------------------------------------------------------
 void WebAuthTng2Class::pipe_factory()
 {
-    /*----- PROTECTED REGION ID(WebAuthTng2Class::pipe_factory_before) ENABLED START -----*/
+	/*----- PROTECTED REGION ID(WebAuthTng2Class::pipe_factory_before) ENABLED START -----*/
     
     //    Add your own code
     
-    /*----- PROTECTED REGION END -----*/    //    WebAuthTng2Class::pipe_factory_before
-    /*----- PROTECTED REGION ID(WebAuthTng2Class::pipe_factory_after) ENABLED START -----*/
+    /*----- PROTECTED REGION END -----*/	//	WebAuthTng2Class::pipe_factory_before
+	/*----- PROTECTED REGION ID(WebAuthTng2Class::pipe_factory_after) ENABLED START -----*/
     
     //    Add your own code
     
-    /*----- PROTECTED REGION END -----*/    //    WebAuthTng2Class::pipe_factory_after
+    /*----- PROTECTED REGION END -----*/	//	WebAuthTng2Class::pipe_factory_after
 }
 //--------------------------------------------------------
 /**
- *    Method      : WebAuthTng2Class::command_factory()
- *    Description : Create the command object(s)
+ *	Method      : WebAuthTng2Class::command_factory()
+ *	Description : Create the command object(s)
  *                and store them in the command list
  */
 //--------------------------------------------------------
 void WebAuthTng2Class::command_factory()
 {
-    /*----- PROTECTED REGION ID(WebAuthTng2Class::command_factory_before) ENABLED START -----*/
+	/*----- PROTECTED REGION ID(WebAuthTng2Class::command_factory_before) ENABLED START -----*/
     
     //    Add your own code
     
-    /*----- PROTECTED REGION END -----*/    //    WebAuthTng2Class::command_factory_before
+    /*----- PROTECTED REGION END -----*/	//	WebAuthTng2Class::command_factory_before
 
 
-    //    Command On
-    OnClass    *pOnCmd =
-        new OnClass("On",
-            Tango::DEV_VOID, Tango::DEV_VOID,
-            "",
-            "",
-            Tango::OPERATOR);
-    command_list.push_back(pOnCmd);
+	//	Command On
+	OnClass	*pOnCmd =
+		new OnClass("On",
+			Tango::DEV_VOID, Tango::DEV_VOID,
+			"",
+			"",
+			Tango::OPERATOR);
+	command_list.push_back(pOnCmd);
 
-    //    Command Off
-    OffClass    *pOffCmd =
-        new OffClass("Off",
-            Tango::DEV_VOID, Tango::DEV_VOID,
-            "",
-            "",
-            Tango::OPERATOR);
-    command_list.push_back(pOffCmd);
+	//	Command Off
+	OffClass	*pOffCmd =
+		new OffClass("Off",
+			Tango::DEV_VOID, Tango::DEV_VOID,
+			"",
+			"",
+			Tango::OPERATOR);
+	command_list.push_back(pOffCmd);
 
-    //    Command check_permissions
-    check_permissionsClass    *pcheck_permissionsCmd =
-        new check_permissionsClass("check_permissions",
-            Tango::DEVVAR_STRINGARRAY, Tango::DEV_BOOLEAN,
-            "Strings;\nargin[0]:device;\nargin[1]:cmd;\nargin[2]:IP;\nargin[3]:login;",
-            "true if user can execute command or write attribute, false otherwise",
-            Tango::OPERATOR);
-    command_list.push_back(pcheck_permissionsCmd);
+	//	Command check_permissions
+	check_permissionsClass	*pcheck_permissionsCmd =
+		new check_permissionsClass("check_permissions",
+			Tango::DEVVAR_STRINGARRAY, Tango::DEV_BOOLEAN,
+			"Strings;\nargin[0]:device;\nargin[1]:cmd;\nargin[2]:IP;\nargin[3]:login;",
+			"true if user can execute command or write attribute, false otherwise",
+			Tango::OPERATOR);
+	command_list.push_back(pcheck_permissionsCmd);
 
-    //    Command check_user
-    check_userClass    *pcheck_userCmd =
-        new check_userClass("check_user",
-            Tango::DEVVAR_STRINGARRAY, Tango::DEV_BOOLEAN,
-            "Strings;\nargin[0]:login;\nargin[1]:password;",
-            "true if user was authorised",
-            Tango::OPERATOR);
-    command_list.push_back(pcheck_userCmd);
+	//	Command check_user
+	check_userClass	*pcheck_userCmd =
+		new check_userClass("check_user",
+			Tango::DEVVAR_STRINGARRAY, Tango::DEV_BOOLEAN,
+			"Strings;\nargin[0]:login;\nargin[1]:password;",
+			"true if user was authorised",
+			Tango::OPERATOR);
+	command_list.push_back(pcheck_userCmd);
 
-    //    Command Send_log_command_ex
-    Send_log_command_exClass    *pSend_log_command_exCmd =
-        new Send_log_command_exClass("Send_log_command_ex",
-            Tango::DEVVAR_STRINGARRAY, Tango::DEV_BOOLEAN,
-            "Strings:\n[0] datetime in UNIX_TIMESTAMP formate\n[1] username\n[2] device_name\n[3] ip\n[4] command\n[5] command in json\n[6] access status",
-            "",
-            Tango::OPERATOR);
-    command_list.push_back(pSend_log_command_exCmd);
+	//	Command Send_log_command_ex
+	Send_log_command_exClass	*pSend_log_command_exCmd =
+		new Send_log_command_exClass("Send_log_command_ex",
+			Tango::DEVVAR_STRINGARRAY, Tango::DEV_BOOLEAN,
+			"Strings:\n[0] datetime in UNIX_TIMESTAMP formate\n[1] username\n[2] device_name\n[3] ip\n[4] command\n[5] command in json\n[6] access status",
+			"",
+			Tango::OPERATOR);
+	command_list.push_back(pSend_log_command_exCmd);
 
-    //    Command check_user_ident
-    check_user_identClass    *pcheck_user_identCmd =
-        new check_user_identClass("check_user_ident",
-            Tango::DEV_STRING, Tango::DEV_VOID,
-            "Strings:\narg[0]: login // user login\narg[1]: id_ri // id rand_identification\narg[2]: rand_ident // rand_identification\narg[3]: rand_ident_hash // hash of rand_identification",
-            "true if user was authorised",
-            Tango::OPERATOR);
-    command_list.push_back(pcheck_user_identCmd);
+	//	Command check_user_ident
+	check_user_identClass	*pcheck_user_identCmd =
+		new check_user_identClass("check_user_ident",
+			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
+			"Strings:\narg[0]: login // user login\narg[1]: id_ri // id rand_identification\narg[2]: rand_ident // rand_identification\narg[3]: rand_ident_hash // hash of rand_identification",
+			"true if user was authorised",
+			Tango::OPERATOR);
+	command_list.push_back(pcheck_user_identCmd);
 
-    /*----- PROTECTED REGION ID(WebAuthTng2Class::command_factory_after) ENABLED START -----*/
+	/*----- PROTECTED REGION ID(WebAuthTng2Class::command_factory_after) ENABLED START -----*/
     
     //    Add your own code
     
-    /*----- PROTECTED REGION END -----*/    //    WebAuthTng2Class::command_factory_after
+    /*----- PROTECTED REGION END -----*/	//	WebAuthTng2Class::command_factory_after
 }
 
 //===================================================================
-//    Dynamic attributes related methods
+//	Dynamic attributes related methods
 //===================================================================
 
 //--------------------------------------------------------
 /**
- * method :         WebAuthTng2Class::create_static_attribute_list
- * description :     Create the a list of static attributes
+ * method : 		WebAuthTng2Class::create_static_attribute_list
+ * description : 	Create the a list of static attributes
  *
- * @param    att_list    the ceated attribute list
+ * @param	att_list	the ceated attribute list
  */
 //--------------------------------------------------------
 void WebAuthTng2Class::create_static_attribute_list(vector<Tango::Attr *> &att_list)
 {
-    for (unsigned long i=0 ; i<att_list.size() ; i++)
-    {
-        string att_name(att_list[i]->get_name());
-        transform(att_name.begin(), att_name.end(), att_name.begin(), ::tolower);
-        defaultAttList.push_back(att_name);
-    }
+	for (unsigned long i=0 ; i<att_list.size() ; i++)
+	{
+		string att_name(att_list[i]->get_name());
+		transform(att_name.begin(), att_name.end(), att_name.begin(), ::tolower);
+		defaultAttList.push_back(att_name);
+	}
 
-    cout2 << defaultAttList.size() << " attributes in default list" << endl;
+	cout2 << defaultAttList.size() << " attributes in default list" << endl;
 
-    /*----- PROTECTED REGION ID(WebAuthTng2Class::create_static_att_list) ENABLED START -----*/
+	/*----- PROTECTED REGION ID(WebAuthTng2Class::create_static_att_list) ENABLED START -----*/
     
-    /*----- PROTECTED REGION END -----*/    //    WebAuthTng2Class::create_static_att_list
+    /*----- PROTECTED REGION END -----*/	//	WebAuthTng2Class::create_static_att_list
 }
 
 
 //--------------------------------------------------------
 /**
- * method :         WebAuthTng2Class::erase_dynamic_attributes
- * description :     delete the dynamic attributes if any.
+ * method : 		WebAuthTng2Class::erase_dynamic_attributes
+ * description : 	delete the dynamic attributes if any.
  *
- * @param    devlist_ptr    the device list pointer
- * @param    list of all attributes
+ * @param	devlist_ptr	the device list pointer
+ * @param	list of all attributes
  */
 //--------------------------------------------------------
 void WebAuthTng2Class::erase_dynamic_attributes(const Tango::DevVarStringArray *devlist_ptr, vector<Tango::Attr *> &att_list)
 {
-    Tango::Util *tg = Tango::Util::instance();
+	Tango::Util *tg = Tango::Util::instance();
 
-    for (unsigned long i=0 ; i<devlist_ptr->length() ; i++)
-    {
-        Tango::DeviceImpl *dev_impl = tg->get_device_by_name(((string)(*devlist_ptr)[i]).c_str());
-        WebAuthTng2 *dev = static_cast<WebAuthTng2 *> (dev_impl);
+	for (unsigned long i=0 ; i<devlist_ptr->length() ; i++)
+	{
+		Tango::DeviceImpl *dev_impl = tg->get_device_by_name(((string)(*devlist_ptr)[i]).c_str());
+		WebAuthTng2 *dev = static_cast<WebAuthTng2 *> (dev_impl);
 
-        vector<Tango::Attribute *> &dev_att_list = dev->get_device_attr()->get_attribute_list();
-        vector<Tango::Attribute *>::iterator ite_att;
-        for (ite_att=dev_att_list.begin() ; ite_att != dev_att_list.end() ; ++ite_att)
-        {
-            string att_name((*ite_att)->get_name_lower());
-            if ((att_name == "state") || (att_name == "status"))
-                continue;
-            vector<string>::iterator ite_str = find(defaultAttList.begin(), defaultAttList.end(), att_name);
-            if (ite_str == defaultAttList.end())
-            {
-                cout2 << att_name << " is a UNWANTED dynamic attribute for device " << (*devlist_ptr)[i] << endl;
-                Tango::Attribute &att = dev->get_device_attr()->get_attr_by_name(att_name.c_str());
-                dev->remove_attribute(att_list[att.get_attr_idx()], true, false);
-                --ite_att;
-            }
-        }
-    }
-    /*----- PROTECTED REGION ID(WebAuthTng2Class::erase_dynamic_attributes) ENABLED START -----*/
+		vector<Tango::Attribute *> &dev_att_list = dev->get_device_attr()->get_attribute_list();
+		vector<Tango::Attribute *>::iterator ite_att;
+		for (ite_att=dev_att_list.begin() ; ite_att != dev_att_list.end() ; ++ite_att)
+		{
+			string att_name((*ite_att)->get_name_lower());
+			if ((att_name == "state") || (att_name == "status"))
+				continue;
+			vector<string>::iterator ite_str = find(defaultAttList.begin(), defaultAttList.end(), att_name);
+			if (ite_str == defaultAttList.end())
+			{
+				cout2 << att_name << " is a UNWANTED dynamic attribute for device " << (*devlist_ptr)[i] << endl;
+				Tango::Attribute &att = dev->get_device_attr()->get_attr_by_name(att_name.c_str());
+				dev->remove_attribute(att_list[att.get_attr_idx()], true, false);
+				--ite_att;
+			}
+		}
+	}
+	/*----- PROTECTED REGION ID(WebAuthTng2Class::erase_dynamic_attributes) ENABLED START -----*/
     
-    /*----- PROTECTED REGION END -----*/    //    WebAuthTng2Class::erase_dynamic_attributes
+    /*----- PROTECTED REGION END -----*/	//	WebAuthTng2Class::erase_dynamic_attributes
 }
 
 //--------------------------------------------------------
 /**
- *    Method      : WebAuthTng2Class::get_attr_by_name()
- *    Description : returns Tango::Attr * object found by name
+ *	Method      : WebAuthTng2Class::get_attr_by_name()
+ *	Description : returns Tango::Attr * object found by name
  */
 //--------------------------------------------------------
 Tango::Attr *WebAuthTng2Class::get_attr_object_by_name(vector<Tango::Attr *> &att_list, string attname)
 {
-    vector<Tango::Attr *>::iterator it;
-    for (it=att_list.begin() ; it<att_list.end() ; ++it)
-        if ((*it)->get_name()==attname)
-            return (*it);
-    //    Attr does not exist
-    return NULL;
+	vector<Tango::Attr *>::iterator it;
+	for (it=att_list.begin() ; it<att_list.end() ; ++it)
+		if ((*it)->get_name()==attname)
+			return (*it);
+	//	Attr does not exist
+	return NULL;
 }
 
 
 /*----- PROTECTED REGION ID(WebAuthTng2Class::Additional Methods) ENABLED START -----*/
 
-/*----- PROTECTED REGION END -----*/    //    WebAuthTng2Class::Additional Methods
-} //    namespace
+/*----- PROTECTED REGION END -----*/	//	WebAuthTng2Class::Additional Methods
+} //	namespace

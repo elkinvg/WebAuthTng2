@@ -84,4 +84,4 @@ int main(int argc,char *argv[])
     return(0);
 }
 
-/*----- PROTECTED REGION END -----*/    //    WebAuthTng2::main.cpp
+/*----- PROTECTED REGION END -----*/	//	WebAuthTng2::main.cpp

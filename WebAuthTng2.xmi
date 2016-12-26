@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <pogoDsl:PogoSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pogoDsl="http://www.esrf.fr/tango/pogo/PogoDsl">
   <classes name="WebAuthTng2" pogoRevision="9.1">
-    <description description="Device server to provide basic web authorization and check access permissions.&#xA;(MySQL database needed)." title="Tango web authentication device server" sourcePath="/home/elkin/tempwork/tangoservs/WebAuthTng2" language="Cpp" filestogenerate="XMI   file,Code files,Protected Regions,html Pages" license="GPL" copyright="Copied and modified version of TangoWebAuth. author: egor@dubna.tk" hasMandatoryProperty="false" hasConcreteProperty="true" hasAbstractCommand="false" hasAbstractAttribute="false" descriptionHtmlExists="false">
+    <description description="Device server to provide basic web authorization and check access permissions.&#xA;(MySQL database needed)." title="Tango web authentication device server" sourcePath="/home/elkin/tempwork/tangoservs/WebAuthTng2" language="Cpp" filestogenerate="XMI   file,Code files,Protected Regions" license="GPL" copyright="Copied and modified version of TangoWebAuth. author: egor@dubna.tk" hasMandatoryProperty="false" hasConcreteProperty="true" hasAbstractCommand="false" hasAbstractAttribute="false">
       <inheritances classname="Device_Impl" sourcePath=""/>
       <identification contact="at jinr.ru - elkin" author="elkin" emailDomain="jinr.ru" classFamily="System" siteSpecific="" platform="All Platforms" bus="Not Applicable" manufacturer="none" reference=""/>
     </description>
@@ -92,7 +92,7 @@
     </commands>
     <commands name="check_user_ident" description="" execMethod="check_user_ident" displayLevel="OPERATOR" polledPeriod="0" isDynamic="false">
       <argin description="Strings:&#xA;arg[0]: login // user login&#xA;arg[1]: id_ri // id rand_identification&#xA;arg[2]: rand_ident // rand_identification&#xA;arg[3]: rand_ident_hash // hash of rand_identification">
-        <type xsi:type="pogoDsl:StringType"/>
+        <type xsi:type="pogoDsl:StringArrayType"/>
       </argin>
       <argout description="true if user was authorised">
         <type xsi:type="pogoDsl:VoidType"/>
