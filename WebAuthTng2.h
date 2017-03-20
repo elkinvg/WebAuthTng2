@@ -257,7 +257,7 @@ public:
 	void add_dynamic_commands();
 
 /*----- PROTECTED REGION ID(WebAuthTng2::Additional Method prototypes) ENABLED START -----*/
-
+private:
 //    Additional Method prototypes
 #ifdef USEDDB
     void initDbUserPass();
@@ -265,6 +265,7 @@ public:
     void CheckError();
     void MysqlConnect();
     void MysqlPing();
+    int getNumFields(string tableName);
 
 /*----- PROTECTED REGION END -----*/	//	WebAuthTng2::Additional Method prototypes
 };

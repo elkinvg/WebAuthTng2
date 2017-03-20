@@ -411,7 +411,7 @@ Tango::DevBoolean WebAuthTng2::check_permissions(const Tango::DevVarStringArray 
             set_status(err.errorMessage);
         }
     }
-
+    DEBUG_STREAM << "check_permissions status is " << std::boolalpha << argout << endl;
     /*----- PROTECTED REGION END -----*/	//	WebAuthTng2::check_permissions
 	return argout;
 }
@@ -467,6 +467,7 @@ Tango::DevBoolean WebAuthTng2::check_user(const Tango::DevVarStringArray *argin)
             set_status(err.errorMessage);
         }
     }
+    DEBUG_STREAM << "check_user status is " << std::boolalpha << argout << endl;
 
     /*----- PROTECTED REGION END -----*/	//	WebAuthTng2::check_user
 	return argout;
@@ -501,11 +502,21 @@ Tango::DevBoolean WebAuthTng2::send_log_command_ex(const Tango::DevVarStringArra
     // argin[5] = commandJson
     // argin[6] = statusBool
 
+    // for new version
+    // argin[7] = isGroup
+
+    // len == 7 Для старой версии
+    // len == 8 Для старой версии
+
     unsigned long len = argin->length();
     //cout << "LENGTH " << argin->length();
+    int numFields = getNumFields("command_history");
+    DEBUG_STREAM << "Number of rows in command_history is " << numFields << endl;
+
+
 
     argout = false;
-    if (len == 7)
+    if (len == 7 || len == 8)
     {
         try {
             std::stringstream query;
@@ -537,6 +548,10 @@ Tango::DevBoolean WebAuthTng2::send_log_command_ex(const Tango::DevVarStringArra
                     values << ")";
                 else
                     values << "\"";
+                // Для старой версии число полей 8 для новой 9
+                // Если используется старая таблица, последняя итерация пропускается
+                if (numFields==8 && len == 8 && i == 6)
+                    break;
             }
 
             query << "INSERT INTO  command_history " << " VALUES(default," << values.str() << ")";
@@ -545,9 +560,11 @@ Tango::DevBoolean WebAuthTng2::send_log_command_ex(const Tango::DevVarStringArra
             mysql_query(connection, query.str().c_str());
             CheckError();
             argout =  true;
+            DEBUG_STREAM << "query: " << query.str() << endl;
         }
         catch (MySQLError &err)
         {
+            ERROR_STREAM << "MySQLError: " <<  err.errorMessage << endl;
             set_state(Tango::FAULT);
             set_status(err.errorMessage);
         }
@@ -642,6 +659,31 @@ void WebAuthTng2::MysqlPing()
     int st = mysql_ping(connection);
     if (st != 0)
         throw MySQLError("MySQL Error");
+}
+
+int WebAuthTng2::getNumFields(string tableName)
+{
+    int numRows = 0;
+    try {
+        string forNumRows = "SELECT * FROM " + tableName + " order by id DESC LIMIT 1";
+        mysql_query(connection, forNumRows.c_str());
+        CheckError();
+
+        // Getting a result table handler
+        MYSQL_RES *res = mysql_store_result(connection);
+        CheckError();
+
+        //numRows = mysql_num_rows(res);
+        numRows = mysql_num_fields(res);
+        CheckError();
+        mysql_free_result(res);
+    }
+    catch (MySQLError &err) {
+        ERROR_STREAM << "MySQLError: " <<  err.errorMessage << endl;
+        set_state(Tango::FAULT);
+        set_status(err.errorMessage);
+    }
+    return numRows;
 }
 
 /*----- PROTECTED REGION END -----*/	//	WebAuthTng2::namespace_ending
