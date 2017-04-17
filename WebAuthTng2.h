@@ -240,11 +240,11 @@ public:
 	 *
 	 *	@param argin Strings:
 	 *               arg[0]: login // user login
-	 *               arg[1]: id_ri // id rand_identification
 	 *               arg[2]: rand_ident // rand_identification
 	 *               arg[3]: rand_ident_hash // hash of rand_identification
+	 *	@returns true if user was authorised
 	 */
-	virtual void check_user_ident(const Tango::DevVarStringArray *argin);
+	virtual Tango::DevBoolean check_user_ident(const Tango::DevVarStringArray *argin);
 	virtual bool is_check_user_ident_allowed(const CORBA::Any &any);
 
 

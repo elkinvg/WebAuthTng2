@@ -13,12 +13,6 @@ You need installed Tango
 $ git clone [git-repo-url] 
 ```
 
-You have to use the definition of defines DBUSER and DBPASS in Makefile
-
-```
-CXXFLAGS_USR+= -DDBUSER="\"user_of_database\"" -DDBPASS="\"user_pass\""
-```
-
 In Visual Studio 
 
 ```

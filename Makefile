@@ -69,7 +69,7 @@ INC_DIR_USER= -I/usr/include/mysql
 #   - for a device server, tango libraries directories are automatically appended
 #   - '-L ../lib' is automatically appended in all cases
 #
-LIB_DIR_USER= -L/usr/lib64/mysql -lmysqlclient
+LIB_DIR_USER= -L/usr/lib64/mysql -lmysqlclient -lcrypto
 
 #=============================================================================
 # LFLAGS_USR is the list of user link flags

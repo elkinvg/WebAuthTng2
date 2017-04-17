@@ -267,8 +267,7 @@ CORBA::Any *check_user_identClass::execute(Tango::DeviceImpl *device, const CORB
 	cout2 << "check_user_identClass::execute(): arrived" << endl;
 	const Tango::DevVarStringArray *argin;
 	extract(in_any, argin);
-	((static_cast<WebAuthTng2 *>(device))->check_user_ident(argin));
-	return new CORBA::Any();
+	return insert((static_cast<WebAuthTng2 *>(device))->check_user_ident(argin));
 }
 
 
@@ -705,8 +704,8 @@ void WebAuthTng2Class::command_factory()
 	//	Command check_user_ident
 	check_user_identClass	*pcheck_user_identCmd =
 		new check_user_identClass("check_user_ident",
-			Tango::DEVVAR_STRINGARRAY, Tango::DEV_VOID,
-			"Strings:\narg[0]: login // user login\narg[1]: id_ri // id rand_identification\narg[2]: rand_ident // rand_identification\narg[3]: rand_ident_hash // hash of rand_identification",
+			Tango::DEVVAR_STRINGARRAY, Tango::DEV_BOOLEAN,
+			"Strings:\narg[0]: login // user login\narg[2]: rand_ident // rand_identification\narg[3]: rand_ident_hash // hash of rand_identification",
 			"true if user was authorised",
 			Tango::OPERATOR);
 	command_list.push_back(pcheck_user_identCmd);
