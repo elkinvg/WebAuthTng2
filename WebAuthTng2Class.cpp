@@ -270,6 +270,25 @@ CORBA::Any *check_user_identClass::execute(Tango::DeviceImpl *device, const CORB
 	return insert((static_cast<WebAuthTng2 *>(device))->check_user_ident(argin));
 }
 
+//--------------------------------------------------------
+/**
+ * method : 		check_permissions_wwwClass::execute()
+ * description : 	method to trigger the execution of the command.
+ *
+ * @param	device	The device on which the command must be executed
+ * @param	in_any	The command input data
+ *
+ *	returns The command output data (packed in the Any object)
+ */
+//--------------------------------------------------------
+CORBA::Any *check_permissions_wwwClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
+{
+	cout2 << "check_permissions_wwwClass::execute(): arrived" << endl;
+	const Tango::DevVarStringArray *argin;
+	extract(in_any, argin);
+	return insert((static_cast<WebAuthTng2 *>(device))->check_permissions_www(argin));
+}
+
 
 //===================================================================
 //	Properties management
@@ -709,6 +728,15 @@ void WebAuthTng2Class::command_factory()
 			"true if user was authorised",
 			Tango::OPERATOR);
 	command_list.push_back(pcheck_user_identCmd);
+
+	//	Command check_permissions_www
+	check_permissions_wwwClass	*pcheck_permissions_wwwCmd =
+		new check_permissions_wwwClass("check_permissions_www",
+			Tango::DEVVAR_STRINGARRAY, Tango::DEV_SHORT,
+			"argin[0]:username;\nargin[1]:password;\nargin[2]:device;\nargin[3]:cmd;\nargin[4]:IP;",
+			"Argout description:\nChecks username/password pair and username permissions. Return values:\n 1: Authentication successfull, permissions checks sucessful\n 0: Permissions denied\n-1: Wrong username/password",
+			Tango::OPERATOR);
+	command_list.push_back(pcheck_permissions_wwwCmd);
 
 	/*----- PROTECTED REGION ID(WebAuthTng2Class::command_factory_after) ENABLED START -----*/
     

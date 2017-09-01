@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <pogoDsl:PogoSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pogoDsl="http://www.esrf.fr/tango/pogo/PogoDsl">
   <classes name="WebAuthTng2" pogoRevision="9.1">
-    <description description="Device server to provide basic web authorization and check access permissions.&#xA;(MySQL database needed)." title="Tango web authentication device server" sourcePath="/home/elkin/tempwork/tangoservs/WebAuthTng2" language="Cpp" filestogenerate="XMI   file,Code files,Protected Regions" license="GPL" copyright="Copied and modified version of TangoWebAuth. author: egor@dubna.tk" hasMandatoryProperty="false" hasConcreteProperty="true" hasAbstractCommand="false" hasAbstractAttribute="false">
+    <description description="Device server to provide basic web authorization and check access permissions.&#xA;(MySQL database needed)." title="Tango web authentication device server" sourcePath="D:\progdir\tango\vs2013\WebAuthTng2" language="Cpp" filestogenerate="XMI   file,Code files,Protected Regions" license="GPL" copyright="Copied and modified version of TangoWebAuth. author: egor@dubna.tk" hasMandatoryProperty="false" hasConcreteProperty="true" hasAbstractCommand="false" hasAbstractAttribute="false">
       <inheritances classname="Device_Impl" sourcePath=""/>
       <identification contact="at jinr.ru - elkin" author="elkin" emailDomain="jinr.ru" classFamily="System" siteSpecific="" platform="All Platforms" bus="Not Applicable" manufacturer="none" reference=""/>
     </description>
@@ -99,6 +99,15 @@
       </argout>
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
     </commands>
+    <commands name="check_permissions_www" description="For REST_DS" execMethod="check_permissions_www" displayLevel="OPERATOR" polledPeriod="0" isDynamic="false">
+      <argin description="argin[0]:username;&#xA;argin[1]:password;&#xA;argin[2]:device;&#xA;argin[3]:cmd;&#xA;argin[4]:IP;">
+        <type xsi:type="pogoDsl:StringArrayType"/>
+      </argin>
+      <argout description="Argout description:&#xA;Checks username/password pair and username permissions. Return values:&#xA; 1: Authentication successfull, permissions checks sucessful&#xA; 0: Permissions denied&#xA;-1: Wrong username/password">
+        <type xsi:type="pogoDsl:ShortType"/>
+      </argout>
+      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
+    </commands>
     <states name="ON" description="">
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
     </states>
@@ -108,6 +117,6 @@
     <states name="FAULT" description="">
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
     </states>
-    <preferences docHome="./doc_html" makefileHome="/usr/local/share/pogo/preferences"/>
+    <preferences docHome="./doc_html" makefileHome="/home/taurel/tmp/tango_install/share/pogo/preferences"/>
   </classes>
 </pogoDsl:PogoSystem>

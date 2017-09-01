@@ -56,16 +56,17 @@ static const char *RcsId = "$Id:  $";
 //  The following table gives the correspondence
 //  between command and method names.
 //
-//  Command name         |  Method name
+//  Command name           |  Method name
 //================================================================
-//  State                |  Inherited (no method)
-//  Status               |  Inherited (no method)
-//  On                   |  on
-//  Off                  |  off
-//  check_permissions    |  check_permissions
-//  check_user           |  check_user
-//  Send_log_command_ex  |  send_log_command_ex
-//  check_user_ident     |  check_user_ident
+//  State                  |  Inherited (no method)
+//  Status                 |  Inherited (no method)
+//  On                     |  on
+//  Off                    |  off
+//  check_permissions      |  check_permissions
+//  check_user             |  check_user
+//  Send_log_command_ex    |  send_log_command_ex
+//  check_user_ident       |  check_user_ident
+//  check_permissions_www  |  check_permissions_www
 //================================================================
 
 //================================================================
@@ -666,6 +667,68 @@ Tango::DevBoolean WebAuthTng2::check_user_ident(const Tango::DevVarStringArray *
      DEBUG_STREAM << "check_user_ident status is " << std::boolalpha << argout << endl;
 
     /*----- PROTECTED REGION END -----*/	//	WebAuthTng2::check_user_ident
+	return argout;
+}
+//--------------------------------------------------------
+/**
+ *	Command check_permissions_www related method
+ *	Description: For REST_DS
+ *
+ *	@param argin argin[0]:username;
+ *               argin[1]:password;
+ *               argin[2]:device;
+ *               argin[3]:cmd;
+ *               argin[4]:IP;
+ *	@returns Argout description:
+ *           Checks username/password pair and username permissions. Return values:
+ *            1: Authentication successfull, permissions checks sucessful
+ *            0: Permissions denied
+ *           -1: Wrong username/password
+ */
+//--------------------------------------------------------
+Tango::DevShort WebAuthTng2::check_permissions_www(const Tango::DevVarStringArray *argin)
+{
+	Tango::DevShort argout;
+	DEBUG_STREAM << "WebAuthTng2::check_permissions_www()  - " << device_name << endl;
+	/*----- PROTECTED REGION ID(WebAuthTng2::check_permissions_www) ENABLED START -----*/
+    /*
+    argin[0]:username;
+    argin[1]:password;
+    argin[2]:device;
+    argin[3]:cmd;
+    argin[4]:IP;
+    */
+
+    Tango::DevVarStringArray *argin_for_check_user = new Tango::DevVarStringArray();
+    argin_for_check_user->length(2);
+    (*argin_for_check_user)[0] = CORBA::string_dup( (*argin)[0]);
+    (*argin_for_check_user)[1] = CORBA::string_dup((*argin)[1]);
+    
+    bool chkuser = check_user(argin_for_check_user);
+
+    if (!chkuser)
+        throw std::runtime_error("check_user returned false");
+
+    delete argin_for_check_user;
+
+    Tango::DevVarStringArray *argin_for_check_permission = new Tango::DevVarStringArray();
+    argin_for_check_permission->length(4);
+
+    (*argin_for_check_permission)[0] = CORBA::string_dup((*argin)[2]); // device
+    (*argin_for_check_permission)[1] = CORBA::string_dup((*argin)[3]); // cmd
+    (*argin_for_check_permission)[2] = CORBA::string_dup((*argin)[4]); // ip
+    (*argin_for_check_permission)[3] = CORBA::string_dup((*argin)[0]); // login
+
+    bool chkperm = check_permissions(argin_for_check_permission);
+
+    if (!chkperm)
+        throw std::runtime_error("check_permissions returned false");
+
+    argout = 1;
+
+    delete argin_for_check_permission;
+	
+	/*----- PROTECTED REGION END -----*/	//	WebAuthTng2::check_permissions_www
 	return argout;
 }
 //--------------------------------------------------------

@@ -246,6 +246,23 @@ public:
 	 */
 	virtual Tango::DevBoolean check_user_ident(const Tango::DevVarStringArray *argin);
 	virtual bool is_check_user_ident_allowed(const CORBA::Any &any);
+	/**
+	 *	Command check_permissions_www related method
+	 *	Description: For REST_DS
+	 *
+	 *	@param argin argin[0]:username;
+	 *               argin[1]:password;
+	 *               argin[2]:device;
+	 *               argin[3]:cmd;
+	 *               argin[4]:IP;
+	 *	@returns Argout description:
+	 *           Checks username/password pair and username permissions. Return values:
+	 *            1: Authentication successfull, permissions checks sucessful
+	 *            0: Permissions denied
+	 *           -1: Wrong username/password
+	 */
+	virtual Tango::DevShort check_permissions_www(const Tango::DevVarStringArray *argin);
+	virtual bool is_check_permissions_www_allowed(const CORBA::Any &any);
 
 
 	//--------------------------------------------------------

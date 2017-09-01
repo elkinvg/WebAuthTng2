@@ -197,6 +197,29 @@ public:
 	{return (static_cast<WebAuthTng2 *>(dev))->is_check_user_ident_allowed(any);}
 };
 
+//	Command check_permissions_www class definition
+class check_permissions_wwwClass : public Tango::Command
+{
+public:
+	check_permissions_wwwClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out,
+				   const char        *in_desc,
+				   const char        *out_desc,
+				   Tango::DispLevel  level)
+	:Command(name,in,out,in_desc,out_desc, level)	{};
+
+	check_permissions_wwwClass(const char   *name,
+	               Tango::CmdArgType in,
+				   Tango::CmdArgType out)
+	:Command(name,in,out)	{};
+	~check_permissions_wwwClass() {};
+	
+	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
+	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
+	{return (static_cast<WebAuthTng2 *>(dev))->is_check_permissions_www_allowed(any);}
+};
+
 
 /**
  *	The WebAuthTng2Class singleton definition
