@@ -43,7 +43,7 @@ static const char *RcsId = "$Id:  $";
 #include <WebAuthTng2.h>
 #include <WebAuthTng2Class.h>
 #include <openssl/md5.h>
-
+#include <ctime>
 /*----- PROTECTED REGION END -----*/	//	WebAuthTng2.cpp
 
 /**
@@ -714,12 +714,41 @@ Tango::DevShort WebAuthTng2::check_permissions_www(const Tango::DevVarStringArra
     Tango::DevVarStringArray *argin_for_check_permission = new Tango::DevVarStringArray();
     argin_for_check_permission->length(4);
 
+    string command = CORBA::string_dup((*argin)[3]);
+
     (*argin_for_check_permission)[0] = CORBA::string_dup((*argin)[2]); // device
     (*argin_for_check_permission)[1] = CORBA::string_dup((*argin)[3]); // cmd
     (*argin_for_check_permission)[2] = CORBA::string_dup((*argin)[4]); // ip
     (*argin_for_check_permission)[3] = CORBA::string_dup((*argin)[0]); // login
 
     bool chkperm = check_permissions(argin_for_check_permission);
+
+    if (command.size() && command[command.size() - 1] == '0') {
+        Tango::DevVarStringArray *for_log = new Tango::DevVarStringArray();
+        for_log->length(8);
+
+        std::time_t t = std::time(0);
+        (*for_log)[0] = to_string(t).c_str();
+
+        (*for_log)[1] = CORBA::string_dup((*argin)[0]); // login
+        (*for_log)[2] = CORBA::string_dup((*argin)[2]); // device
+        (*for_log)[3] = CORBA::string_dup((*argin)[4]); // ip
+        (*for_log)[4] = command.substr(0, command.size() - 1).c_str(); // cmd
+
+        (*for_log)[5] = ""; // commandJson
+        (*for_log)[7] = "0"; // isGroup
+
+
+        if (chkperm) {
+            (*for_log)[6] = "1";
+        }
+        else {
+            (*for_log)[6] = "0";
+        }
+
+        send_log_command_ex(for_log);
+        delete for_log;
+    }
 
     if (!chkperm)
         throw std::runtime_error("check_permissions returned false");
