@@ -253,25 +253,6 @@ CORBA::Any *Send_log_command_exClass::execute(Tango::DeviceImpl *device, const C
 
 //--------------------------------------------------------
 /**
- * method : 		check_user_identClass::execute()
- * description : 	method to trigger the execution of the command.
- *
- * @param	device	The device on which the command must be executed
- * @param	in_any	The command input data
- *
- *	returns The command output data (packed in the Any object)
- */
-//--------------------------------------------------------
-CORBA::Any *check_user_identClass::execute(Tango::DeviceImpl *device, const CORBA::Any &in_any)
-{
-	cout2 << "check_user_identClass::execute(): arrived" << endl;
-	const Tango::DevVarStringArray *argin;
-	extract(in_any, argin);
-	return insert((static_cast<WebAuthTng2 *>(device))->check_user_ident(argin));
-}
-
-//--------------------------------------------------------
-/**
  * method : 		check_permissions_wwwClass::execute()
  * description : 	method to trigger the execution of the command.
  *
@@ -358,19 +339,6 @@ void WebAuthTng2Class::set_default_property()
 	//	Set Default Class Properties
 
 	//	Set Default device Properties
-	prop_name = "MailAgentDevice";
-	prop_desc = "Tango device with mail-agent for sending email.";
-	prop_def  = "";
-	vect_data.clear();
-	if (prop_def.length()>0)
-	{
-		Tango::DbDatum	data(prop_name);
-		data << vect_data ;
-		dev_def_prop.push_back(data);
-		add_wiz_dev_prop(prop_name, prop_desc,  prop_def);
-	}
-	else
-		add_wiz_dev_prop(prop_name, prop_desc);
 	prop_name = "dbhost";
 	prop_desc = "Database host";
 	prop_def  = "127.0.0.1";
@@ -621,15 +589,6 @@ void WebAuthTng2Class::command_factory()
 			"",
 			Tango::OPERATOR);
 	command_list.push_back(pSend_log_command_exCmd);
-
-	//	Command check_user_ident
-	check_user_identClass	*pcheck_user_identCmd =
-		new check_user_identClass("check_user_ident",
-			Tango::DEVVAR_STRINGARRAY, Tango::DEV_BOOLEAN,
-			"Strings:\narg[0]: login // user login\narg[2]: rand_ident // rand_identification\narg[3]: rand_ident_hash // hash of rand_identification",
-			"true if user was authorised",
-			Tango::OPERATOR);
-	command_list.push_back(pcheck_user_identCmd);
 
 	//	Command check_permissions_www
 	check_permissions_wwwClass	*pcheck_permissions_wwwCmd =

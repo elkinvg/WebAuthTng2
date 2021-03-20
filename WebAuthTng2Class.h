@@ -174,29 +174,6 @@ public:
 	{return (static_cast<WebAuthTng2 *>(dev))->is_Send_log_command_ex_allowed(any);}
 };
 
-//	Command check_user_ident class definition
-class check_user_identClass : public Tango::Command
-{
-public:
-	check_user_identClass(const char   *name,
-	               Tango::CmdArgType in,
-				   Tango::CmdArgType out,
-				   const char        *in_desc,
-				   const char        *out_desc,
-				   Tango::DispLevel  level)
-	:Command(name,in,out,in_desc,out_desc, level)	{};
-
-	check_user_identClass(const char   *name,
-	               Tango::CmdArgType in,
-				   Tango::CmdArgType out)
-	:Command(name,in,out)	{};
-	~check_user_identClass() {};
-	
-	virtual CORBA::Any *execute (Tango::DeviceImpl *dev, const CORBA::Any &any);
-	virtual bool is_allowed (Tango::DeviceImpl *dev, const CORBA::Any &any)
-	{return (static_cast<WebAuthTng2 *>(dev))->is_check_user_ident_allowed(any);}
-};
-
 //	Command check_permissions_www class definition
 class check_permissions_wwwClass : public Tango::Command
 {

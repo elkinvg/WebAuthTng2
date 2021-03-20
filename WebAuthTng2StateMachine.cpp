@@ -135,21 +135,6 @@ bool WebAuthTng2::is_Send_log_command_ex_allowed(TANGO_UNUSED(const CORBA::Any &
 
 //--------------------------------------------------------
 /**
- *	Method      : WebAuthTng2::is_check_user_ident_allowed()
- *	Description : Execution allowed for check_user_ident attribute
- */
-//--------------------------------------------------------
-bool WebAuthTng2::is_check_user_ident_allowed(TANGO_UNUSED(const CORBA::Any &any))
-{
-	//	Not any excluded states for check_user_ident command.
-	/*----- PROTECTED REGION ID(WebAuthTng2::check_user_identStateAllowed) ENABLED START -----*/
-    
-    /*----- PROTECTED REGION END -----*/	//	WebAuthTng2::check_user_identStateAllowed
-	return true;
-}
-
-//--------------------------------------------------------
-/**
  *	Method      : WebAuthTng2::is_check_permissions_www_allowed()
  *	Description : Execution allowed for check_permissions_www attribute
  */

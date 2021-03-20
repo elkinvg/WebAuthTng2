@@ -44,6 +44,7 @@ static const char *RcsId = "$Id:  $";
 #include <WebAuthTng2Class.h>
 #include <openssl/md5.h>
 #include <ctime>
+#include <boost/property_tree/json_parser.hpp>
 /*----- PROTECTED REGION END -----*/	//	WebAuthTng2.cpp
 
 /**
@@ -65,7 +66,6 @@ static const char *RcsId = "$Id:  $";
 //  check_permissions      |  check_permissions
 //  check_user             |  check_user
 //  Send_log_command_ex    |  send_log_command_ex
-//  check_user_ident       |  check_user_ident
 //  check_permissions_www  |  check_permissions_www
 //================================================================
 
@@ -189,7 +189,6 @@ void WebAuthTng2::get_device_property()
 
 	//	Read device properties from database.
 	Tango::DbData	dev_prop;
-	dev_prop.push_back(Tango::DbDatum("MailAgentDevice"));
 	dev_prop.push_back(Tango::DbDatum("dbhost"));
 	dev_prop.push_back(Tango::DbDatum("dbname"));
 	dev_prop.push_back(Tango::DbDatum("dbuser"));
@@ -207,17 +206,6 @@ void WebAuthTng2::get_device_property()
 		WebAuthTng2Class	*ds_class =
 			(static_cast<WebAuthTng2Class *>(get_device_class()));
 		int	i = -1;
-
-		//	Try to initialize MailAgentDevice from class property
-		cl_prop = ds_class->get_class_property(dev_prop[++i].name);
-		if (cl_prop.is_empty()==false)	cl_prop  >>  mailAgentDevice;
-		else {
-			//	Try to initialize MailAgentDevice from default device value
-			def_prop = ds_class->get_default_device_property(dev_prop[i].name);
-			if (def_prop.is_empty()==false)	def_prop  >>  mailAgentDevice;
-		}
-		//	And try to extract MailAgentDevice value from database
-		if (dev_prop[i].is_empty()==false)	dev_prop[i]  >>  mailAgentDevice;
 
 		//	Try to initialize dbhost from class property
 		cl_prop = ds_class->get_class_property(dev_prop[++i].name);
@@ -516,9 +504,8 @@ Tango::DevBoolean WebAuthTng2::send_log_command_ex(const Tango::DevVarStringArra
     int numFields = getNumFields("command_history");
     DEBUG_STREAM << "Number of rows in command_history is " << numFields << endl;
 
-
-
     argout = false;
+    string json;
     if (len == 7 || len == 8)
     {
         try {
@@ -526,42 +513,46 @@ Tango::DevBoolean WebAuthTng2::send_log_command_ex(const Tango::DevVarStringArra
             std::stringstream values;
             for (int i = 0; i < len; i++)
             {
+                // argin[7] = isGroup теперь не используется
+                if (i == 7) {
+                    continue;
+                }
                 if (i)
                     values << ",";
-                if (i == 0) // FOR datetime
+                else // FOR datetime
                     values << " FROM_UNIXTIME(";
-                else
-                    values << "\"";
 
-                if (i!=5)
+                if (i != 5) {
+                    values << "'";
                     values << CORBA::string_dup((*argin)[i]);
+                    values << "'";
+                }
                 else {
                     string tmp = CORBA::string_dup((*argin)[i]);
-                    auto pos = tmp.find("\"");
-                    while (pos != string::npos)
-                        {
-                            tmp.replace(pos, 1, "\\\"");
-                            pos = tmp.find("\"",pos + 2);
-                        }
-                    values << tmp;
+                    if (tmp.size()) {
+                        parseAndGetInfo(values, tmp);
+                    }
+                    else {
+                        values << "NULL,NULL";
+                    }
                 }
 
                 if (i == 0)
                     values << ")";
-                else
-                    values << "\"";
                 // Для старой версии число полей 8 для новой 9
                 // Если используется старая таблица, последняя итерация пропускается
                 if (numFields==8 && len == 8 && i == 6)
                     break;
             }
 
-            query << "INSERT INTO  command_history " << " VALUES(default," << values.str() << ")";
+            // колонка alias
+            values << ", NULL";
 
+            query << "INSERT INTO  access_history " << " VALUES(default," << values.str() << ")";
+            DEBUG_STREAM << "query: " << query.str() << endl;
             mysql_query(connection, query.str().c_str());
             CheckError();
             argout =  true;
-            DEBUG_STREAM << "query: " << query.str() << endl;
         }
         catch (MySQLError &err)
         {
@@ -572,101 +563,6 @@ Tango::DevBoolean WebAuthTng2::send_log_command_ex(const Tango::DevVarStringArra
     }
 
     /*----- PROTECTED REGION END -----*/	//	WebAuthTng2::send_log_command_ex
-	return argout;
-}
-//--------------------------------------------------------
-/**
- *	Command check_user_ident related method
- *	Description: 
- *
- *	@param argin Strings:
- *               arg[0]: login // user login
- *               arg[2]: rand_ident // rand_identification
- *               arg[3]: rand_ident_hash // hash of rand_identification
- *	@returns true if user was authorised
- */
-//--------------------------------------------------------
-Tango::DevBoolean WebAuthTng2::check_user_ident(const Tango::DevVarStringArray *argin)
-{
-	Tango::DevBoolean argout;
-	DEBUG_STREAM << "WebAuthTng2::check_user_ident()  - " << device_name << endl;
-	/*----- PROTECTED REGION ID(WebAuthTng2::check_user_ident) ENABLED START -----*/
-
-    argout = false;
-    std::string login, rand_ident, rand_ident_hash;
-
-    if (argin->length() == 3) {
-        login=(*argin)[0];
-        rand_ident=(*argin)[1];
-        rand_ident_hash=(*argin)[2];
-    }
-    else
-        return argout;
-
-    MYSQL_RES *res;
-    MYSQL_ROW row;
-    try
-    {
-        MysqlPing();
-        std::stringstream ss;
-        ss << "SELECT password FROM person WHERE login='" << login << "'";
-        mysql_query(connection, ss.str().c_str());
-        CheckError();
-
-        // Getting a result table handler
-        res = mysql_store_result(connection);
-
-        // How many rows are in the answer
-        int numRows = mysql_num_rows(res);
-        CheckError();
-
-        if (numRows != 1)
-            return argout;
-
-        row = mysql_fetch_row(res);
-
-        string md5 = row[0];
-
-        std::string resultSmall;
-        std::string resultBig;
-        resultSmall.reserve(32);
-        resultBig.reserve(32);
-
-        unsigned char digest[MD5_DIGEST_LENGTH];
-
-        string strForCheck = rand_ident + md5;
-
-        MD5(reinterpret_cast<unsigned char *>(const_cast<char *>(strForCheck.c_str())), strForCheck.size(), (unsigned char*)&digest);
-
-        string smallLet = "0123456789abcdef";
-        string bigLet = "0123456789ABCDEF";
-
-        for (std::size_t i = 0; i != 16; ++i)
-        {
-          resultSmall += smallLet[digest[i] / 16];
-          resultSmall += smallLet[digest[i] % 16];
-
-          resultBig += bigLet[digest[i] / 16];
-          resultBig += bigLet[digest[i] % 16];
-        }
-
-        mysql_free_result(res);
-
-        DEBUG_STREAM << " RINDHASH: " << rand_ident_hash << endl;
-        DEBUG_STREAM << " RESULTSM: " << resultSmall << endl;
-        DEBUG_STREAM << " RESULTBG: " << resultBig << endl;
-
-        if (rand_ident_hash == resultBig || rand_ident_hash == resultSmall)
-            argout = true;
-    }
-    catch (MySQLError &err)
-    {
-        set_state(Tango::FAULT);
-        set_status(err.errorMessage);
-    }
-     DEBUG_STREAM << "check_user_ident status is " << std::boolalpha << argout << endl;
-
-    /*----- PROTECTED REGION END -----*/	//	WebAuthTng2::check_user_ident
 	return argout;
 }
 //--------------------------------------------------------
@@ -778,6 +674,73 @@ void WebAuthTng2::add_dynamic_commands()
 
 /*----- PROTECTED REGION ID(WebAuthTng2::namespace_ending) ENABLED START -----*/
 
+void WebAuthTng2::parseAndGetInfo(std::stringstream & values, const string & inputJson)
+{
+    stringstream ss;
+    ss << inputJson;
+    boost::property_tree::ptree pt;
+    unsigned short isCommand = 0;
+    string argin;
+
+    try {
+        boost::property_tree::read_json(ss, pt);
+        for (auto& elem : pt) {
+            string tmpStr;
+            if (elem.first == "command_name") {
+                isCommand = 1;
+            }
+            if (elem.first == "attr_name") {
+                isCommand = 0;
+            }
+            if (elem.first == "command") {
+                isCommand = 1;
+            }
+            if (elem.first == "argin") {
+                // Если не массив
+                if (elem.second.data().size()) {
+                    argin = elem.second.data();
+                }
+                else {
+                    vector<string> vecStr;
+                    try {
+                        for (boost::property_tree::ptree::value_type &v : elem.second) {
+                            vecStr.push_back(v.second.data());
+                        }
+                    } catch(...) {}
+
+                    for (unsigned short i = 0; i < vecStr.size(); i++) {
+                        if (i == 0) {
+                            argin += "'[";
+                        }
+                        else {
+                            argin += ",";
+                        }
+                        try {
+                            volatile double d = std::stod(vecStr[i]);
+                            argin += vecStr[i];
+                        }
+                        catch (...) {
+                            argin += "\"";
+                            argin += vecStr[i];
+                            argin += "\"";
+                        }
+                        if (i == vecStr.size() - 1) {
+                            argin += "]'";
+                        }
+                    }
+                }
+            }
+        }
+        if (!argin.size()) {
+            argin = "NULL";
+        }
+        values << argin << "," << isCommand;
+    }
+    catch (...) {
+        values << "NULL,NULL";
+    }
+}
+
 void WebAuthTng2::CheckError()
 {
     const char* status = mysql_error(connection);
@@ -845,6 +808,81 @@ int WebAuthTng2::getNumFields(string tableName)
     }
     return numRows;
 }
+// //--------------------------------------------------------
+// /**
+//  *	Command check_user_ident related method
+//  *	Description: 
+//  *
+//  *	@param argin Strings:
+//  *               arg[0]: login // user login
+//  *               arg[2]: rand_ident // rand_identification
+//  *               arg[3]: rand_ident_hash // hash of rand_identification
+//  *	@returns true if user was authorised
+//  */
+// //--------------------------------------------------------
+// Tango::DevBoolean WebAuthTng2::check_user_ident(const Tango::DevVarStringArray *argin)
+// {
+// 	Tango::DevBoolean argout;
+// 	DEBUG_STREAM << "WebAuthTng2::check_user_ident()  - " << device_name << endl;
+//     argout = false;
+//     std::string login, rand_ident, rand_ident_hash;
+//     if (argin->length() == 3) {
+//         login=(*argin)[0];
+//         rand_ident=(*argin)[1];
+//         rand_ident_hash=(*argin)[2];
+//     }
+//     else
+//         return argout;
+//     MYSQL_RES *res;
+//     MYSQL_ROW row;
+//     try
+//     {
+//         MysqlPing();
+//         std::stringstream ss;
+//         ss << "SELECT password FROM person WHERE login='" << login << "'";
+//         mysql_query(connection, ss.str().c_str());
+//         CheckError();
+//         // Getting a result table handler
+//         res = mysql_store_result(connection);
+//         // How many rows are in the answer
+//         int numRows = mysql_num_rows(res);
+//         CheckError();
+//         if (numRows != 1)
+//             return argout;
+//         row = mysql_fetch_row(res);
+//         string md5 = row[0];
+//         std::string resultSmall;
+//         std::string resultBig;
+//         resultSmall.reserve(32);
+//         resultBig.reserve(32);
+//         unsigned char digest[MD5_DIGEST_LENGTH];
+//         string strForCheck = rand_ident + md5;
+//         MD5(reinterpret_cast<unsigned char *>(const_cast<char *>(strForCheck.c_str())), strForCheck.size(), (unsigned char*)&digest);
+//         string smallLet = "0123456789abcdef";
+//         string bigLet = "0123456789ABCDEF";
+//         for (std::size_t i = 0; i != 16; ++i)
+//         {
+//           resultSmall += smallLet[digest[i] / 16];
+//           resultSmall += smallLet[digest[i] % 16];
+//           resultBig += bigLet[digest[i] / 16];
+//           resultBig += bigLet[digest[i] % 16];
+//         }
+//         mysql_free_result(res);
+//         DEBUG_STREAM << " RINDHASH: " << rand_ident_hash << endl;
+//         DEBUG_STREAM << " RESULTSM: " << resultSmall << endl;
+//         DEBUG_STREAM << " RESULTBG: " << resultBig << endl;
+//         if (rand_ident_hash == resultBig || rand_ident_hash == resultSmall)
+//             argout = true;
+//     }
+//     catch (MySQLError &err)
+//     {
+//         set_state(Tango::FAULT);
+//         set_status(err.errorMessage);
+//     }
+//      DEBUG_STREAM << "check_user_ident status is " << std::boolalpha << argout << endl;
+// 	return argout;
+// }
+
 
 /*----- PROTECTED REGION END -----*/	//	WebAuthTng2::namespace_ending
 } //	namespace
