@@ -35,7 +35,7 @@ RELEASE      = Release_$(MAJOR_VERS)_$(MINOR_VERS)
 # # - DEBUG     : debug symbols - no optimization
 # # - OPTIMIZED : no debug symbols - optimization level set to O2
 # #-----------------------------------------------------------------------------
-RELEASE_TYPE = DEBUG
+RELEASE_TYPE = OPTIMIZED
 
 #=============================================================================
 # OUTPUT_TYPE can be one of the following :
@@ -54,7 +54,7 @@ OUTPUT_TYPE = DEVICE
 #	- $HOME/DeviceServers if OUTPUT_TYPE is DEVICE
 #	- ../bin for others
 #
-#OUTPUT_DIR = ./bin/$(BIN_DIR)
+OUTPUT_DIR = ./bin
 
 
 #=============================================================================
