@@ -94,8 +94,6 @@ private:
 
 //	Device property data members
 public:
-	//	MailAgentDevice:	Tango device with mail-agent for sending email.
-	string	mailAgentDevice;
 	//	dbhost:	Database host
 	string	dbhost;
 	//	dbname:	Db name containg the user information.
@@ -104,6 +102,8 @@ public:
 	string	dbuser;
 	//	dbpass:	Db password to read authentication database.
 	string	dbpass;
+	//	whitelistforlog:	
+	vector<string>	whitelistforlog;
 
 
 //	Constructors and destructors
@@ -234,18 +234,6 @@ public:
 	 */
 	virtual Tango::DevBoolean send_log_command_ex(const Tango::DevVarStringArray *argin);
 	virtual bool is_Send_log_command_ex_allowed(const CORBA::Any &any);
-	/**
-	 *	Command check_user_ident related method
-	 *	Description: 
-	 *
-	 *	@param argin Strings:
-	 *               arg[0]: login // user login
-	 *               arg[2]: rand_ident // rand_identification
-	 *               arg[3]: rand_ident_hash // hash of rand_identification
-	 *	@returns true if user was authorised
-	 */
-	virtual Tango::DevBoolean check_user_ident(const Tango::DevVarStringArray *argin);
-	virtual bool is_check_user_ident_allowed(const CORBA::Any &any);
 	/**
 	 *	Command check_permissions_www related method
 	 *	Description: For REST_DS
