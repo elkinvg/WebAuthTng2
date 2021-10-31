@@ -102,6 +102,8 @@ public:
 	string	dbuser;
 	//	dbpass:	Db password to read authentication database.
 	string	dbpass;
+	//	whitelistforlog:	
+	vector<string>	whitelistforlog;
 
 
 //	Constructors and destructors

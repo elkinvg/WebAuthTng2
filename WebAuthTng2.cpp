@@ -45,6 +45,7 @@ static const char *RcsId = "$Id:  $";
 #include <openssl/md5.h>
 #include <ctime>
 #include <boost/property_tree/json_parser.hpp>
+#include <algorithm>
 /*----- PROTECTED REGION END -----*/	//	WebAuthTng2.cpp
 
 /**
@@ -193,6 +194,7 @@ void WebAuthTng2::get_device_property()
 	dev_prop.push_back(Tango::DbDatum("dbname"));
 	dev_prop.push_back(Tango::DbDatum("dbuser"));
 	dev_prop.push_back(Tango::DbDatum("dbpass"));
+	dev_prop.push_back(Tango::DbDatum("whitelistforlog"));
 
 	//	is there at least one property to be read ?
 	if (dev_prop.size()>0)
@@ -250,6 +252,17 @@ void WebAuthTng2::get_device_property()
 		}
 		//	And try to extract dbpass value from database
 		if (dev_prop[i].is_empty()==false)	dev_prop[i]  >>  dbpass;
+
+		//	Try to initialize whitelistforlog from class property
+		cl_prop = ds_class->get_class_property(dev_prop[++i].name);
+		if (cl_prop.is_empty()==false)	cl_prop  >>  whitelistforlog;
+		else {
+			//	Try to initialize whitelistforlog from default device value
+			def_prop = ds_class->get_default_device_property(dev_prop[i].name);
+			if (def_prop.is_empty()==false)	def_prop  >>  whitelistforlog;
+		}
+		//	And try to extract whitelistforlog value from database
+		if (dev_prop[i].is_empty()==false)	dev_prop[i]  >>  whitelistforlog;
 
 	}
 
@@ -505,7 +518,6 @@ Tango::DevBoolean WebAuthTng2::send_log_command_ex(const Tango::DevVarStringArra
     DEBUG_STREAM << "Number of rows in command_history is " << numFields << endl;
 
     argout = false;
-    string json;
     if (len == 7 || len == 8)
     {
         try {
@@ -546,7 +558,7 @@ Tango::DevBoolean WebAuthTng2::send_log_command_ex(const Tango::DevVarStringArra
             }
 
             // колонка alias
-            values << ", NULL";
+            // values << ", NULL";
 
             query << "INSERT INTO  access_history " << " VALUES(default," << values.str() << ")";
             DEBUG_STREAM << "query: " << query.str() << endl;
@@ -619,7 +631,13 @@ Tango::DevShort WebAuthTng2::check_permissions_www(const Tango::DevVarStringArra
 
     bool chkperm = check_permissions(argin_for_check_permission);
 
-    if (command.size() && command[command.size() - 1] == '0') {
+    // имя команды плюс 1 - операция записи
+    string realname = command.size() > 1 ? command.substr(0, command.size() - 1) : command;
+    // В whitelist перечислены команды, для которых не нужна запись в журнал
+
+    bool hasInWhiteList = std::find(whitelistforlog.begin(), whitelistforlog.end(), realname) != whitelistforlog.end();
+    //if (command.size() && command[command.size() - 1] == '0') {
+    if (!hasInWhiteList && command.size() && command[command.size() - 1] == '1') {
         Tango::DevVarStringArray *for_log = new Tango::DevVarStringArray();
         for_log->length(8);
 
@@ -629,7 +647,7 @@ Tango::DevShort WebAuthTng2::check_permissions_www(const Tango::DevVarStringArra
         (*for_log)[1] = CORBA::string_dup((*argin)[0]); // login
         (*for_log)[2] = CORBA::string_dup((*argin)[2]); // device
         (*for_log)[3] = CORBA::string_dup((*argin)[4]); // ip
-        (*for_log)[4] = command.substr(0, command.size() - 1).c_str(); // cmd
+        (*for_log)[4] = realname.c_str(); // cmd
 
         (*for_log)[5] = ""; // commandJson
         (*for_log)[7] = "0"; // isGroup
@@ -646,12 +664,13 @@ Tango::DevShort WebAuthTng2::check_permissions_www(const Tango::DevVarStringArra
         delete for_log;
     }
 
+    delete argin_for_check_permission;
+
     if (!chkperm)
         throw std::runtime_error("check_permissions returned false");
 
     argout = 1;
 
-    delete argin_for_check_permission;
 	
 	/*----- PROTECTED REGION END -----*/	//	WebAuthTng2::check_permissions_www
 	return argout;

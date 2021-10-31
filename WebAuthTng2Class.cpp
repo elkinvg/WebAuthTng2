@@ -393,6 +393,19 @@ void WebAuthTng2Class::set_default_property()
 	}
 	else
 		add_wiz_dev_prop(prop_name, prop_desc);
+	prop_name = "whitelistforlog";
+	prop_desc = "";
+	prop_def  = "";
+	vect_data.clear();
+	if (prop_def.length()>0)
+	{
+		Tango::DbDatum	data(prop_name);
+		data << vect_data ;
+		dev_def_prop.push_back(data);
+		add_wiz_dev_prop(prop_name, prop_desc,  prop_def);
+	}
+	else
+		add_wiz_dev_prop(prop_name, prop_desc);
 }
 
 //--------------------------------------------------------
@@ -425,6 +438,104 @@ void WebAuthTng2Class::write_class_property()
 	str_desc.push_back("(MySQL database needed).");
 	description << str_desc;
 	data.push_back(description);
+
+	//	put cvs or svn location
+	string	filename("WebAuthTng2");
+	filename += "Class.cpp";
+
+	// check for cvs information
+	string	src_path(CvsPath);
+	start = src_path.find("/");
+	if (start!=string::npos)
+	{
+		end   = src_path.find(filename);
+		if (end>start)
+		{
+			string	strloc = src_path.substr(start, end-start);
+			//	Check if specific repository
+			start = strloc.find("/cvsroot/");
+			if (start!=string::npos && start>0)
+			{
+				string	repository = strloc.substr(0, start);
+				if (repository.find("/segfs/")!=string::npos)
+					strloc = "ESRF:" + strloc.substr(start, strloc.length()-start);
+			}
+			Tango::DbDatum	cvs_loc("cvs_location");
+			cvs_loc << strloc;
+			data.push_back(cvs_loc);
+		}
+	}
+
+	// check for svn information
+	else
+	{
+		string	src_path(SvnPath);
+		start = src_path.find("://");
+		if (start!=string::npos)
+		{
+			end = src_path.find(filename);
+			if (end>start)
+			{
+				header = "$HeadURL: ";
+				start = header.length();
+				string	strloc = src_path.substr(start, (end-start));
+				
+				Tango::DbDatum	svn_loc("svn_location");
+				svn_loc << strloc;
+				data.push_back(svn_loc);
+			}
+		}
+	}
+
+	//	Get CVS or SVN revision tag
+	
+	// CVS tag
+	string	tagname(TagName);
+	header = "$Name: ";
+	start = header.length();
+	string	endstr(" $");
+	
+	end   = tagname.find(endstr);
+	if (end!=string::npos && end>start)
+	{
+		string	strtag = tagname.substr(start, end-start);
+		Tango::DbDatum	cvs_tag("cvs_tag");
+		cvs_tag << strtag;
+		data.push_back(cvs_tag);
+	}
+	
+	// SVN tag
+	string	svnpath(SvnPath);
+	header = "$HeadURL: ";
+	start = header.length();
+	
+	end   = svnpath.find(endstr);
+	if (end!=string::npos && end>start)
+	{
+		string	strloc = svnpath.substr(start, end-start);
+		
+		string tagstr ("/tags/");
+		start = strloc.find(tagstr);
+		if ( start!=string::npos )
+		{
+			start = start + tagstr.length();
+			end   = strloc.find(filename);
+			string	strtag = strloc.substr(start, end-start-1);
+			
+			Tango::DbDatum	svn_tag("svn_tag");
+			svn_tag << strtag;
+			data.push_back(svn_tag);
+		}
+	}
+
+	//	Get URL location
+	string	httpServ(HttpServer);
+	if (httpServ.length()>0)
+	{
+		Tango::DbDatum	db_doc_url("doc_url");
+		db_doc_url << httpServ;
+		data.push_back(db_doc_url);
+	}
 
 	//  Put inheritance
 	Tango::DbDatum	inher_datum("InheritedFrom");
@@ -677,7 +788,7 @@ void WebAuthTng2Class::erase_dynamic_attributes(const Tango::DevVarStringArray *
 
 //--------------------------------------------------------
 /**
- *	Method      : WebAuthTng2Class::get_attr_object_by_name()
+ *	Method      : WebAuthTng2Class::get_attr_by_name()
  *	Description : returns Tango::Attr * object found by name
  */
 //--------------------------------------------------------
