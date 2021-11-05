@@ -41,13 +41,6 @@
 #include <tango.h>
 #include <mysql.h>
 
-#ifdef DBUSER
-#ifdef DBPASS
-
-#define USEDDB
-
-#endif
-#endif
 
 /*----- PROTECTED REGION END -----*/	//	WebAuthTng2.h
 
@@ -81,6 +74,7 @@ class WebAuthTng2 : public TANGO_BASE_CLASS
 //    Add your own data members
 private:
     MYSQL *connection;
+    bool checkPerm{ true };
     //    dbhost:    Db host
 //    string    dbhost;
 //    //    dbname:    Db name containing authorization information.
@@ -264,10 +258,7 @@ public:
 /*----- PROTECTED REGION ID(WebAuthTng2::Additional Method prototypes) ENABLED START -----*/
 private:
 //    Additional Method prototypes
-#ifdef USEDDB
-    void initDbUserPass();
-#endif
-    void parseAndGetInfo(std::stringstream& values, const string& inputJson);
+    void parseAndGetInfoAboutArgin(std::stringstream& values, const string& inputJson);
     void CheckError();
     void MysqlConnect();
     void MysqlPing();

@@ -153,9 +153,7 @@ void WebAuthTng2::init_device()
 	get_device_property();
 	
 	/*----- PROTECTED REGION ID(WebAuthTng2::init_device) ENABLED START -----*/
-#ifdef USEDDB
-    initDbUserPass();
-#endif
+    checkPerm = true;
 
     try
     {
@@ -333,6 +331,7 @@ void WebAuthTng2::on()
 {
 	DEBUG_STREAM << "WebAuthTng2::On()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(WebAuthTng2::on) ENABLED START -----*/
+    checkPerm = true;
 
     set_state(Tango::ON);
     set_status("Device is ON");
@@ -350,6 +349,8 @@ void WebAuthTng2::off()
 {
 	DEBUG_STREAM << "WebAuthTng2::Off()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(WebAuthTng2::off) ENABLED START -----*/
+
+    checkPerm = false;
 
     set_state(Tango::OFF);
     set_status("Device is OFF");
@@ -435,6 +436,11 @@ Tango::DevBoolean WebAuthTng2::check_user(const Tango::DevVarStringArray *argin)
 	Tango::DevBoolean argout;
 	DEBUG_STREAM << "WebAuthTng2::check_user()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(WebAuthTng2::check_user) ENABLED START -----*/
+    // Если проверка пользователя и прав отключены
+    if (!checkPerm) {
+        return true;
+    }
+
     argout = false;
     if (argin->length() > 1)
     {
@@ -498,7 +504,7 @@ Tango::DevBoolean WebAuthTng2::send_log_command_ex(const Tango::DevVarStringArra
 	Tango::DevBoolean argout;
 	DEBUG_STREAM << "WebAuthTng2::Send_log_command_ex()  - " << device_name << endl;
 	/*----- PROTECTED REGION ID(WebAuthTng2::send_log_command_ex) ENABLED START -----*/
-
+    // TODO: Также изенить и на WebSocketDS, по необходимости не отправлять в журнал JSON. Только команду, argin и статус
     // argin[0] = timestamp_string UNIX_TIMESTAMP
     // argin[1] = login
     // argin[2] = deviceName
@@ -507,6 +513,7 @@ Tango::DevBoolean WebAuthTng2::send_log_command_ex(const Tango::DevVarStringArra
     // argin[5] = commandJson
     // argin[6] = statusBool
 
+    // TODO: Не нужно
     // for new version
     // argin[7] = isGroup
 
@@ -534,19 +541,20 @@ Tango::DevBoolean WebAuthTng2::send_log_command_ex(const Tango::DevVarStringArra
                 else // FOR datetime
                     values << " FROM_UNIXTIME(";
 
-                if (i != 5) {
+                // Для парсинга commandJson и получения информации об argin
+                if (i == 5) {
+                    string tmp = CORBA::string_dup((*argin)[i]);
+                    if (tmp.size()) {
+                        parseAndGetInfoAboutArgin(values, tmp);
+                    }
+                    else {
+                        values << "NULL";
+                    }
+                }
+                else {
                     values << "'";
                     values << CORBA::string_dup((*argin)[i]);
                     values << "'";
-                }
-                else {
-                    string tmp = CORBA::string_dup((*argin)[i]);
-                    if (tmp.size()) {
-                        parseAndGetInfo(values, tmp);
-                    }
-                    else {
-                        values << "NULL,NULL";
-                    }
                 }
 
                 if (i == 0)
@@ -629,7 +637,14 @@ Tango::DevShort WebAuthTng2::check_permissions_www(const Tango::DevVarStringArra
     (*argin_for_check_permission)[2] = CORBA::string_dup((*argin)[4]); // ip
     (*argin_for_check_permission)[3] = CORBA::string_dup((*argin)[0]); // login
 
-    bool chkperm = check_permissions(argin_for_check_permission);
+    bool chkperm;
+    // Если проверка пользователя и прав включены
+    if (checkPerm) {
+        chkperm = check_permissions(argin_for_check_permission);
+    }
+    else {
+        chkperm = true;
+    }
 
     // имя команды плюс 1 - операция записи
     string realname = command.size() > 1 ? command.substr(0, command.size() - 1) : command;
@@ -666,6 +681,8 @@ Tango::DevShort WebAuthTng2::check_permissions_www(const Tango::DevVarStringArra
 
     delete argin_for_check_permission;
 
+    // Изначально REST принимал возвращаемый результат.
+    // Сейчас, если нет доступа, требует исключение
     if (!chkperm)
         throw std::runtime_error("check_permissions returned false");
 
@@ -693,27 +710,32 @@ void WebAuthTng2::add_dynamic_commands()
 
 /*----- PROTECTED REGION ID(WebAuthTng2::namespace_ending) ENABLED START -----*/
 
-void WebAuthTng2::parseAndGetInfo(std::stringstream & values, const string & inputJson)
+/*
+* Основная задача здесь получить информацию об argin из JSON команды
+*/
+void WebAuthTng2::parseAndGetInfoAboutArgin(std::stringstream & values, const string & inputJson)
 {
     stringstream ss;
     ss << inputJson;
     boost::property_tree::ptree pt;
-    unsigned short isCommand = 0;
+    // TODO: DELETE
+    //unsigned short isCommand = 0;
     string argin;
 
     try {
         boost::property_tree::read_json(ss, pt);
         for (auto& elem : pt) {
             string tmpStr;
-            if (elem.first == "command_name") {
-                isCommand = 1;
-            }
-            if (elem.first == "attr_name") {
-                isCommand = 0;
-            }
-            if (elem.first == "command") {
-                isCommand = 1;
-            }
+            // TODO: DELETE
+            //if (elem.first == "command_name") {
+            //    isCommand = 1;
+            //}
+            //if (elem.first == "attr_name") {
+            //    isCommand = 0;
+            //}
+            //if (elem.first == "command") {
+            //    isCommand = 1;
+            //}
             if (elem.first == "argin") {
                 // Если не массив
                 if (elem.second.data().size()) {
@@ -753,10 +775,10 @@ void WebAuthTng2::parseAndGetInfo(std::stringstream & values, const string & inp
         if (!argin.size()) {
             argin = "NULL";
         }
-        values << argin << "," << isCommand;
+        values << argin;
     }
     catch (...) {
-        values << "NULL,NULL";
+        values << "NULL";
     }
 }
 
@@ -768,21 +790,6 @@ void WebAuthTng2::CheckError()
         throw MySQLError(status);
     }
 }
-
-// if defined USEDDB dbuser and dbpass will redefine from DBUSER DBPASS
-#ifdef USEDDB
-void WebAuthTng2::initDbUserPass()
-{
-    stringstream ss;
-    ss << DBUSER;
-    dbuser = ss.str();
-    ss.str(std::string());ss.clear();
-
-    ss << DBPASS;
-    dbpass = ss.str();
-    ss.str(std::string());ss.clear();
-}
-#endif
 
 void WebAuthTng2::MysqlConnect()
 {
