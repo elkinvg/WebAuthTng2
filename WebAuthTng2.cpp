@@ -168,6 +168,10 @@ void WebAuthTng2::init_device()
         set_status(err.errorMessage);
     }
 
+    for (auto& comm : whitelistforlog) {
+        transform(comm.begin(), comm.end(), comm.begin(), ::tolower);
+    }
+
     /*----- PROTECTED REGION END -----*/	//	WebAuthTng2::init_device
 }
 
@@ -510,7 +514,7 @@ Tango::DevBoolean WebAuthTng2::send_log_command_ex(const Tango::DevVarStringArra
     // argin[2] = deviceName
     // argin[3] = IP
     // argin[4] = commandName
-    // argin[5] = commandJson
+    // argin[5] = commandJson Сейчас argin 
     // argin[6] = statusBool
 
     // TODO: Не нужно
@@ -523,6 +527,16 @@ Tango::DevBoolean WebAuthTng2::send_log_command_ex(const Tango::DevVarStringArra
     unsigned long len = argin->length();
     int numFields = getNumFields("command_history");
     DEBUG_STREAM << "Number of rows in command_history is " << numFields << endl;
+
+    // TODO: Пока здесь белый список. Также проверяется check_permissions_www
+    string realname = CORBA::string_dup((*argin)[4]);
+    transform(realname.begin(), realname.end(), realname.begin(), ::tolower);
+
+    bool hasInWhiteList = std::find(whitelistforlog.begin(), whitelistforlog.end(), realname) != whitelistforlog.end();
+
+    if (hasInWhiteList) {
+        return false;
+    }
 
     argout = false;
     if (len == 7 || len == 8)
